@@ -185,8 +185,7 @@
     </div>
 
     <script>
-        // HANYA BUTUH 1 URL INI SEKARANG! 
-        // Mengambil data dari 3 sheet secara otomatis tanpa butuh link CSV lagi.
+        // Gunakan endpoint Apps Script untuk GET semua data (dari 3 tab) sekaligus
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwE6Ln9Zvhu8GRRv0NrWjLsUYYILc7AwAKwQ6pryUtmNwq9dmZA3qkL3ns4cGwJSaOxZA/exec';
 
         let state = {
@@ -195,14 +194,20 @@
         };
         let searchTimeout = null;
 
-        // Fetching Database dari Apps Script Multi-Sheet
+        // FUNGSI BARU: Fetching Database via Apps Script
         async function initDatabase() {
             try {
+                // Mengambil data JSON langsung dari Apps Script yang menggabungkan ke-3 sheet
                 const res = await fetch(APPS_SCRIPT_URL + '?action=getData');
                 const data = await res.json();
-                // Gabungkan semua data menjadi satu array state.db
+                
+                // Gabungkan semua data dari berbagai sheet ke dalam 1 database aplikasi
                 state.db = [...(data.kauniyah || []), ...(data.dalil || []), ...(data.kaifiyah || [])];
-            } catch (err) { console.error("Gagal load database", err); }
+                console.log("Data berhasil dimuat:", state.db.length, "item.");
+            } catch (err) { 
+                console.error("Gagal load database", err); 
+                showToast("Gagal memuat data dari database.", "error");
+            }
         }
 
         async function fetchQuranSearch(query) {
@@ -287,7 +292,6 @@
                 lucide.createIcons(); return;
             }
 
-            // FILTERING BERDASARKAN KATEGORI (Tidak lagi memakai awalan kata)
             let dataKauniyah = state.db.filter(i => i.category === 'KAUNIYAH');
             let dataHadis = state.db.filter(i => i.category === 'HADIS');
 
@@ -370,6 +374,7 @@
 
         function openReader(id, cat) {
             const i = state.db.find(x => x.id === id);
+            if (!i) return;
             document.getElementById('readerCategory').innerText = cat;
             document.getElementById('readerTitle').innerText = i.word;
             document.getElementById('readerContent').innerHTML = i.maknaPositif;
@@ -472,7 +477,7 @@
                     action: document.getElementById('formAction').value,
                     id: document.getElementById('editId').value,
                     category: document.getElementById('itemCategory').value,
-                    word: document.getElementById('newWord').value, // Tidak butuh awalan lagi!
+                    word: document.getElementById('newWord').value,
                     positif: document.getElementById('newPositif').value,
                     negatif: document.getElementById('newNegatif').value,
                     keterangan: document.getElementById('newKet').value,
