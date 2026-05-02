@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MaknaQu - Eksplorasi Makna & Amalan</title>
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="logo-maknaqu.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,7 +14,6 @@
         .font-arabic { font-family: 'Amiri', serif; }
         .dir-rtl { direction: rtl; text-align: right; }
         
-        /* Animasi & Scrollbar */
         .loader {
             border: 3px solid #f3f3f3; border-radius: 50%;
             border-top: 3px solid #eab308; width: 24px; height: 24px;
@@ -30,17 +28,15 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         
-        /* Teks Mode Baca */
         .prose-custom p { margin-bottom: 1rem; line-height: 1.7; color: #334155; }
         .prose-custom ol { margin-left: 1.5rem; margin-bottom: 1rem; list-style-type: decimal; }
         .prose-custom li { margin-bottom: 0.5rem; }
         
-        body { padding-bottom: 80px; } /* Ruang Bottom Nav */
+        body { padding-bottom: 80px; }
     </style>
 </head>
 <body class="min-h-screen bg-slate-50 font-sans text-slate-800">
 
-    <!-- TOAST NOTIFICATION -->
     <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
 
     <!-- LOGIN PENGUNJUNG OVERLAY -->
@@ -63,7 +59,6 @@
     <!-- WRAPPER UTAMA APLIKASI -->
     <div id="appContainer" class="hidden fade-in">
         
-        <!-- HEADER GLOBAL -->
         <header class="bg-neutral-900 text-white p-6 shadow-md rounded-b-3xl mb-6 max-w-4xl mx-auto relative sticky top-0 z-40">
             <div class="max-w-3xl mx-auto text-center">
                 <h1 id="headerTitle" class="text-3xl font-bold mb-1 flex items-center justify-center gap-2 text-yellow-400">
@@ -121,7 +116,7 @@
 
     </div>
 
-    <!-- BOTTOM NAVIGATION (Kuning Tegas Elegan) -->
+    <!-- BOTTOM NAVIGATION -->
     <nav class="fixed bottom-0 w-full bg-yellow-400 border-t border-yellow-500 shadow-[0_-8px_20px_rgba(250,204,21,0.3)] z-40 pb-safe">
         <div class="max-w-md mx-auto flex justify-around items-center h-16 px-4">
             <button onclick="switchView('home')" id="nav-home" class="nav-btn flex flex-col items-center justify-center w-full h-full text-neutral-900">
@@ -190,11 +185,8 @@
     </div>
 
     <script>
-        // ==========================================
-        // 1. PENGATURAN URL DATABASE (TERHUBUNG KE SISTEM ANDA)
-        // ==========================================
-        // Catatan: Saya ubah /pubhtml menjadi /pub?output=csv agar terbaca sbg data tabel mentah
-        const GOOGLE_SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQVJP3-0sG-lY_tTuB-rCdHr0uxsjU2wzoh4zcN1CLE0aviLxjVKsgz6ssu05Roq2VnE78AUfOf-3OA/pub?output=csv'; 
+        // HANYA BUTUH 1 URL INI SEKARANG! 
+        // Mengambil data dari 3 sheet secara otomatis tanpa butuh link CSV lagi.
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwE6Ln9Zvhu8GRRv0NrWjLsUYYILc7AwAKwQ6pryUtmNwq9dmZA3qkL3ns4cGwJSaOxZA/exec';
 
         let state = {
@@ -203,42 +195,13 @@
         };
         let searchTimeout = null;
 
-        // ==========================================
-        // 2. FUNGSI LOGIKA DATA & API
-        // ==========================================
-        function parseCSV(csvText) {
-            const rows = csvText.split(/\r?\n/);
-            const data = [];
-            for(let i = 1; i < rows.length; i++) {
-                if(!rows[i].trim()) continue;
-                const cols = []; let curr = ''; let inQuotes = false;
-                for(let char of rows[i]) {
-                    if(char === '"') inQuotes = !inQuotes;
-                    else if(char === ',' && !inQuotes) { cols.push(curr); curr = ''; }
-                    else { curr += char; }
-                }
-                cols.push(curr);
-                
-                if(cols.length >= 2 && (cols[1] || '').trim() !== '') {
-                    data.push({
-                        id: (cols[0] || '').replace(/(^"|"$)/g, '').trim() || 'id_'+i, 
-                        word: (cols[1] || '').replace(/(^"|"$)/g, '').trim(),
-                        maknaPositif: (cols[2] || '').replace(/(^"|"$)/g, '').trim(),
-                        maknaNegatif: (cols[3] || '').replace(/(^"|"$)/g, '').trim(),
-                        keterangan: (cols[4] || '').replace(/(^"|"$)/g, '').trim(),
-                        image: cols.length > 5 ? (cols[5] || '').replace(/(^"|"$)/g, '').trim() : ''
-                    });
-                }
-            }
-            return data;
-        }
-
+        // Fetching Database dari Apps Script Multi-Sheet
         async function initDatabase() {
             try {
-                if(GOOGLE_SHEETS_CSV_URL.includes('MASUKKAN')) return;
-                const res = await fetch(GOOGLE_SHEETS_CSV_URL + '&t=' + new Date().getTime());
-                const text = await res.text();
-                state.db = parseCSV(text);
+                const res = await fetch(APPS_SCRIPT_URL + '?action=getData');
+                const data = await res.json();
+                // Gabungkan semua data menjadi satu array state.db
+                state.db = [...(data.kauniyah || []), ...(data.dalil || []), ...(data.kaifiyah || [])];
             } catch (err) { console.error("Gagal load database", err); }
         }
 
@@ -281,9 +244,6 @@
             }
         }
 
-        // ==========================================
-        // 3. FUNGSI UI & RENDER
-        // ==========================================
         function showToast(m, t='success') {
             const c = document.getElementById('toastContainer');
             const e = document.createElement('div');
@@ -304,7 +264,6 @@
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`view-${v}`).classList.remove('hidden');
             
-            // Reset navigasi bawah (Warna Kuning Tegas)
             document.querySelectorAll('.nav-btn').forEach(b => { 
                 b.classList.replace('text-neutral-900', 'text-yellow-700'); 
                 b.querySelector('i').classList.remove('scale-110');
@@ -328,8 +287,9 @@
                 lucide.createIcons(); return;
             }
 
-            let dataKauniyah = state.db.filter(i => !i.word.includes('[HADIS]') && !i.word.includes('[PANDUAN_DALIL]') && !i.word.includes('[KAIFIYAH]'));
-            let dataHadis = state.db.filter(i => i.word.includes('[HADIS]'));
+            // FILTERING BERDASARKAN KATEGORI (Tidak lagi memakai awalan kata)
+            let dataKauniyah = state.db.filter(i => i.category === 'KAUNIYAH');
+            let dataHadis = state.db.filter(i => i.category === 'HADIS');
 
             if (q) {
                 dataKauniyah = dataKauniyah.filter(i => i.word.toLowerCase().includes(q) || i.maknaPositif.toLowerCase().includes(q));
@@ -360,11 +320,10 @@
             if ((state.homeTab === 'all' || state.homeTab === 'hadis') && dataHadis.length > 0) {
                 html += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Dalil Hadis</h2><div class="space-y-3">`;
                 html += dataHadis.map(i => {
-                    const cleanTitle = i.word.replace('[HADIS]', '').trim();
                     const text = `"${i.maknaPositif}"\n(${i.maknaNegatif})`;
                     return `<div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm border-l-4 border-l-blue-400 relative">
                         <button onclick="copyText(\`${text}\`)" class="absolute top-4 right-4 text-slate-300 hover:text-blue-500 bg-slate-50 p-2 rounded-full"><i data-lucide="copy" class="w-4 h-4"></i></button>
-                        <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded mb-2 inline-block">Topik: ${cleanTitle}</span>
+                        <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded mb-2 inline-block">Topik: ${i.word}</span>
                         <p class="text-slate-700 font-medium leading-relaxed italic pr-10">"${i.maknaPositif}"</p>
                         <p class="text-sm text-slate-400 mt-2 font-bold">— ${i.maknaNegatif}</p>
                     </div>`;
@@ -387,37 +346,32 @@
         }
 
         function renderDalilList() {
-            const d = state.db.filter(i => i.word.includes('[PANDUAN_DALIL]'));
+            const d = state.db.filter(i => i.category === 'PANDUAN_DALIL');
             document.getElementById('dalilList').innerHTML = d.map(i => {
-                const title = i.word.replace('[PANDUAN_DALIL]','').trim();
                 const media = i.image ? `<img src="${i.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 bg-slate-50" onerror="this.style.display='none'">` : `<div class="bg-blue-50 p-3 rounded-xl text-blue-500 shrink-0"><i data-lucide="book" class="w-6 h-6"></i></div>`;
                 return `<div onclick="openReader('${i.id}', 'Panduan Keilmuan')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-start gap-4">
-                    ${media} <div class="flex-1"><h3 class="font-bold text-slate-800 mb-1 leading-tight">${title}</h3><p class="text-xs text-slate-400 line-clamp-2">${i.maknaPositif.replace(/<[^>]*>?/gm, '')}</p></div>
+                    ${media} <div class="flex-1"><h3 class="font-bold text-slate-800 mb-1 leading-tight">${i.word}</h3><p class="text-xs text-slate-400 line-clamp-2">${i.maknaPositif.replace(/<[^>]*>?/gm, '')}</p></div>
                 </div>`;
             }).join('') || '<p class="text-slate-400 text-sm">Belum ada panduan tersedia.</p>';
             lucide.createIcons();
         }
 
         function renderKaifiyahList() {
-            const k = state.db.filter(i => i.word.includes('[KAIFIYAH]'));
+            const k = state.db.filter(i => i.category === 'KAIFIYAH');
             document.getElementById('kaifiyahList').innerHTML = k.map(i => {
-                const title = i.word.replace('[KAIFIYAH]','').trim();
                 const media = i.image ? `<img src="${i.image}" class="w-14 h-14 rounded-full object-cover shrink-0 border-2 border-emerald-100" onerror="this.style.display='none'">` : `<div class="bg-emerald-50 p-3 rounded-full text-emerald-500 shrink-0"><i data-lucide="sparkles" class="w-5 h-5"></i></div>`;
                 return `<div onclick="openReader('${i.id}', 'Panduan Amalan')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-4 flex-1">${media} <h3 class="font-bold text-slate-800 leading-tight">${title}</h3></div>
+                    <div class="flex items-center gap-4 flex-1">${media} <h3 class="font-bold text-slate-800 leading-tight">${i.word}</h3></div>
                     <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
                 </div>`;
             }).join('') || '<p class="text-slate-400 text-sm">Belum ada amalan tersedia.</p>';
             lucide.createIcons();
         }
 
-        // ==========================================
-        // 4. MODAL & CMS
-        // ==========================================
         function openReader(id, cat) {
             const i = state.db.find(x => x.id === id);
             document.getElementById('readerCategory').innerText = cat;
-            document.getElementById('readerTitle').innerText = i.word.replace(/\[.*?\]/g,'');
+            document.getElementById('readerTitle').innerText = i.word;
             document.getElementById('readerContent').innerHTML = i.maknaPositif;
             const img = document.getElementById('readerImage');
             if(i.image) { img.src = i.image; img.classList.remove('hidden'); } else img.classList.add('hidden');
@@ -447,16 +401,10 @@
             } else if(id) {
                 const item = state.db.find(x => x.id === id);
                 if(item) {
-                    let cat = 'KAUNIYAH';
-                    if(item.word.includes('[HADIS]')) cat = 'HADIS';
-                    if(item.word.includes('[PANDUAN_DALIL]')) cat = 'PANDUAN_DALIL';
-                    if(item.word.includes('[KAIFIYAH]')) cat = 'KAIFIYAH';
-                    
-                    document.getElementById('itemCategory').value = cat;
+                    document.getElementById('itemCategory').value = item.category;
                     document.getElementById('itemCategory').disabled = true;
                     adjustAdminForm();
-
-                    document.getElementById('newWord').value = item.word.replace(/\[.*?\]/g, '').trim();
+                    document.getElementById('newWord').value = item.word;
                     document.getElementById('newPositif').value = item.maknaPositif;
                     document.getElementById('newNegatif').value = item.maknaNegatif;
                     document.getElementById('newKet').value = item.keterangan || '';
@@ -467,21 +415,11 @@
         }
         function closeAdminModal() { document.getElementById('adminModal').classList.replace('flex', 'hidden'); }
 
-        // ==========================================
-        // 5. EVENT LISTENERS UTAMA
-        // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
 
-            // LOGIN
             document.getElementById('userLoginForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
-                
-                if(APPS_SCRIPT_URL.includes('MASUKKAN')) {
-                    alert("ANDA BELUM MEMASUKKAN URL APPS SCRIPT DI KODE HTML!");
-                    return;
-                }
-
                 const btn = document.getElementById('userLoginBtn');
                 btn.disabled = true; btn.innerHTML = `<div class="loader" style="width:20px;height:20px;border-width:2px;border-top-color:white;"></div>`;
                 
@@ -498,11 +436,10 @@
                         await initDatabase();
                         renderHomeSearch();
                     } else showToast(result.message, 'error');
-                } catch (err) { showToast('Kesalahan jaringan. Periksa URL Apps Script.', 'error'); }
+                } catch (err) { showToast('Kesalahan jaringan. Pastikan URL Apps Script benar.', 'error'); }
                 finally { btn.disabled = false; btn.innerHTML = `<i data-lucide="unlock" class="w-5 h-5"></i> Masuk`; lucide.createIcons(); }
             });
 
-            // PENCARIAN & TABS
             const searchInput = document.getElementById('searchInput');
             const clearBtn = document.getElementById('clearSearchBtn');
             searchInput.addEventListener('input', (e) => {
@@ -525,23 +462,17 @@
                 });
             });
 
-            // SUBMIT DATA (CMS)
             document.getElementById('cmsForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const btn = document.getElementById('submitBtn');
                 btn.disabled = true; btn.innerHTML = `<div class="loader" style="width:16px;height:16px;"></div> Menyimpan...`;
 
-                let finalWord = document.getElementById('newWord').value;
-                const cat = document.getElementById('itemCategory').value;
-                if(cat === 'HADIS') finalWord = `[HADIS] ${finalWord}`;
-                if(cat === 'PANDUAN_DALIL') finalWord = `[PANDUAN_DALIL] ${finalWord}`;
-                if(cat === 'KAIFIYAH') finalWord = `[KAIFIYAH] ${finalWord}`;
-
                 const payload = {
                     password: document.getElementById('adminPass').value,
                     action: document.getElementById('formAction').value,
                     id: document.getElementById('editId').value,
-                    word: finalWord,
+                    category: document.getElementById('itemCategory').value,
+                    word: document.getElementById('newWord').value, // Tidak butuh awalan lagi!
                     positif: document.getElementById('newPositif').value,
                     negatif: document.getElementById('newNegatif').value,
                     keterangan: document.getElementById('newKet').value,
@@ -560,7 +491,7 @@
                         if(state.homeTab === 'dalil') renderDalilList();
                         if(state.homeTab === 'kaifiyah') renderKaifiyahList();
                     } else showToast(result.message, 'error');
-                } catch (err) { showToast('Gagal menyimpan. Cek koneksi / Apps Script.', 'error'); }
+                } catch (err) { showToast('Gagal menyimpan. Cek koneksi.', 'error'); }
                 finally { btn.disabled = false; btn.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan Data`; lucide.createIcons(); }
             });
         });
