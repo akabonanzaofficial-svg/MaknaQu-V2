@@ -185,7 +185,7 @@
     </div>
 
     <script>
-        // Gunakan endpoint Apps Script untuk GET semua data (dari 3 tab) sekaligus
+        // Endpoint Google Apps Script yang sudah dikonfigurasi (HANYA BUTUH URL INI)
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwE6Ln9Zvhu8GRRv0NrWjLsUYYILc7AwAKwQ6pryUtmNwq9dmZA3qkL3ns4cGwJSaOxZA/exec';
 
         let state = {
@@ -194,19 +194,25 @@
         };
         let searchTimeout = null;
 
-        // FUNGSI BARU: Fetching Database via Apps Script
+        // FUNGSI BARU: Fetching Database via Apps Script dengan Deteksi Error Pintar
         async function initDatabase() {
             try {
-                // Mengambil data JSON langsung dari Apps Script yang menggabungkan ke-3 sheet
-                const res = await fetch(APPS_SCRIPT_URL + '?action=getData');
-                const data = await res.json();
+                const res = await fetch(APPS_SCRIPT_URL + '?action=getData', { redirect: 'follow' });
+                const textData = await res.text();
                 
-                // Gabungkan semua data dari berbagai sheet ke dalam 1 database aplikasi
-                state.db = [...(data.kauniyah || []), ...(data.dalil || []), ...(data.kaifiyah || [])];
-                console.log("Data berhasil dimuat:", state.db.length, "item.");
+                try {
+                    const data = JSON.parse(textData);
+                    // Gabungkan semua data dari berbagai sheet ke dalam 1 database aplikasi
+                    state.db = [...(data.kauniyah || []), ...(data.dalil || []), ...(data.kaifiyah || [])];
+                    console.log("Data berhasil dimuat:", state.db.length, "item.");
+                } catch (parseError) {
+                    console.error("Kesalahan Parsing Data (Mungkin Apps Script belum di-deploy Versi Baru):", textData);
+                    showToast("Sistem belum di-update. Mohon Lakukan Deploy -> Versi Baru di Apps Script Anda.", "error");
+                }
+
             } catch (err) { 
                 console.error("Gagal load database", err); 
-                showToast("Gagal memuat data dari database.", "error");
+                showToast("Gagal memuat data dari jaringan. Periksa koneksi internet.", "error");
             }
         }
 
@@ -433,15 +439,27 @@
                         method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, redirect: 'follow',
                         body: JSON.stringify({ action: 'login', password: document.getElementById('userPass').value })
                     });
-                    const result = await res.json();
-                    if(result.status === 'success') {
-                        document.getElementById('loginOverlay').style.display = 'none';
-                        document.getElementById('appContainer').classList.remove('hidden');
-                        showToast('Selamat datang di MaknaQu', 'success');
-                        await initDatabase();
-                        renderHomeSearch();
-                    } else showToast(result.message, 'error');
-                } catch (err) { showToast('Kesalahan jaringan. Pastikan URL Apps Script benar.', 'error'); }
+                    
+                    const textData = await res.text();
+                    
+                    try {
+                        const result = JSON.parse(textData);
+                        if(result.status === 'success') {
+                            document.getElementById('loginOverlay').style.display = 'none';
+                            document.getElementById('appContainer').classList.remove('hidden');
+                            showToast('Selamat datang di MaknaQu', 'success');
+                            await initDatabase();
+                            renderHomeSearch();
+                        } else {
+                            showToast(result.message, 'error');
+                        }
+                    } catch (parseErr) {
+                        console.error("Kesalahan parsing login (Pastikan versi baru sudah di-deploy):", textData);
+                        showToast("Sistem belum di-update. Mohon Lakukan Deploy -> Versi Baru.", "error");
+                    }
+                } catch (err) { 
+                    showToast('Kesalahan jaringan saat memverifikasi sandi.', 'error'); 
+                }
                 finally { btn.disabled = false; btn.innerHTML = `<i data-lucide="unlock" class="w-5 h-5"></i> Masuk`; lucide.createIcons(); }
             });
 
@@ -488,14 +506,20 @@
                     const res = await fetch(APPS_SCRIPT_URL, {
                         method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, redirect: 'follow', body: JSON.stringify(payload)
                     });
-                    const result = await res.json();
-                    if(result.status === 'success') {
-                        showToast(result.message, 'success');
-                        closeAdminModal();
-                        await initDatabase(); executeSearch(); 
-                        if(state.homeTab === 'dalil') renderDalilList();
-                        if(state.homeTab === 'kaifiyah') renderKaifiyahList();
-                    } else showToast(result.message, 'error');
+                    const textData = await res.text();
+                    
+                    try {
+                        const result = JSON.parse(textData);
+                        if(result.status === 'success') {
+                            showToast(result.message, 'success');
+                            closeAdminModal();
+                            await initDatabase(); executeSearch(); 
+                            if(state.homeTab === 'dalil') renderDalilList();
+                            if(state.homeTab === 'kaifiyah') renderKaifiyahList();
+                        } else showToast(result.message, 'error');
+                    } catch (parseErr) {
+                         showToast("Penyimpanan gagal. Sistem belum di-update (Deploy ke Versi Baru).", "error");
+                    }
                 } catch (err) { showToast('Gagal menyimpan. Cek koneksi.', 'error'); }
                 finally { btn.disabled = false; btn.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan Data`; lucide.createIcons(); }
             });
