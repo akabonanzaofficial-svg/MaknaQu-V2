@@ -32,10 +32,10 @@
         .prose-custom ol { margin-left: 1.5rem; margin-bottom: 1rem; list-style-type: decimal; }
         .prose-custom li { margin-bottom: 0.5rem; }
         
-        body { padding-bottom: 80px; }
+        body { padding-bottom: 90px; }
     </style>
 </head>
-<body class="min-h-screen bg-slate-50 font-sans text-slate-800">
+<body class="min-h-screen bg-slate-50 font-sans text-slate-800 overflow-x-hidden">
 
     <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
 
@@ -57,23 +57,19 @@
     </div>
 
     <!-- WRAPPER UTAMA APLIKASI -->
-    <div id="appContainer" class="hidden fade-in">
+    <div id="appContainer" class="hidden fade-in relative">
         
-        <header class="bg-neutral-900 text-white p-6 shadow-md rounded-b-3xl mb-6 max-w-4xl mx-auto relative sticky top-0 z-40">
+        <header class="bg-neutral-900 text-white p-6 shadow-md rounded-b-3xl mb-6 max-w-4xl mx-auto relative sticky top-0 z-30">
             <div class="max-w-3xl mx-auto text-center">
                 <h1 id="headerTitle" class="text-3xl font-bold mb-1 flex items-center justify-center gap-2 text-yellow-400">
                     <i data-lucide="book-open" class="w-8 h-8"></i> MaknaQu
                 </h1>
                 <p id="headerSubtitle" class="text-neutral-300 opacity-90 text-sm">Eksplorasi Kauniyah & Pencari Ayat Harfiyah</p>
             </div>
-            
-            <button onclick="openAdminModal('add')" class="absolute top-4 right-4 text-[10px] bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full flex items-center gap-1 transition-all border border-white/20 backdrop-blur-sm">
-                <i data-lucide="plus" class="w-3 h-3"></i> Tambah
-            </button>
         </header>
 
         <!-- VIEW: HOME (PENCARIAN UTAMA) -->
-        <main id="view-home" class="view-section max-w-4xl mx-auto px-4">
+        <main id="view-home" class="view-section max-w-4xl mx-auto px-4 relative">
             <div class="max-w-2xl mx-auto relative mb-6">
                 <div class="relative flex items-center w-full h-14 rounded-full focus-within:shadow-lg bg-white overflow-hidden shadow-sm border border-slate-200">
                     <div class="grid place-items-center h-full w-12 text-slate-400" id="searchIconContainer">
@@ -86,20 +82,25 @@
                 </div>
             </div>
 
-            <div class="flex justify-center gap-2 mb-8 bg-white p-1 rounded-full shadow-sm max-w-fit mx-auto border border-slate-200 overflow-x-auto whitespace-nowrap hide-scrollbar">
-                <button data-tab="all" class="home-tab-btn active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center gap-2">Semua</button>
-                <button data-tab="kauniyah" class="home-tab-btn px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Kauniyah</button>
-                <button data-tab="quran" class="home-tab-btn px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4"></i> Harfiyah</button>
-                <button data-tab="hadis" class="home-tab-btn px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Hadis</button>
+            <!-- TABS AREA: Kiri Tetap (Fixed), Kanan Bergeser (Scroll) -->
+            <div class="flex items-center mb-8 bg-white p-1 rounded-full shadow-sm max-w-full w-fit mx-auto border border-slate-200">
+                <div class="shrink-0 pr-2 mr-1 border-r border-slate-100 relative z-10 bg-white rounded-l-full">
+                    <button data-tab="all" class="home-tab-btn shrink-0 active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center gap-2">Semua</button>
+                </div>
+                <div class="flex gap-2 overflow-x-auto hide-scrollbar scroll-smooth w-full pr-2">
+                    <button data-tab="kauniyah" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Kauniyah</button>
+                    <button data-tab="quran" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4"></i> Harfiyah</button>
+                    <button data-tab="hadis" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Hadis</button>
+                </div>
             </div>
 
             <div id="mainContent" class="space-y-6 pb-6">
-                <div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi.</p></div>
+                <div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi makna.</p></div>
             </div>
         </main>
 
         <!-- VIEW: DALIL -->
-        <main id="view-dalil" class="view-section max-w-4xl mx-auto px-4 hidden fade-in">
+        <main id="view-dalil" class="view-section max-w-4xl mx-auto px-4 hidden fade-in relative">
             <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2">
                 <i data-lucide="library" class="text-yellow-500"></i> Kumpulan Panduan & Dalil
             </h2>
@@ -107,7 +108,7 @@
         </main>
 
         <!-- VIEW: KAIFIYAH -->
-        <main id="view-kaifiyah" class="view-section max-w-4xl mx-auto px-4 hidden fade-in">
+        <main id="view-kaifiyah" class="view-section max-w-4xl mx-auto px-4 hidden fade-in relative">
             <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2">
                 <i data-lucide="heart-handshake" class="text-yellow-500"></i> Panduan Amalan Kaifiyah
             </h2>
@@ -116,18 +117,36 @@
 
     </div>
 
+    <!-- SMART EDGE PANEL MINI -->
+    <!-- Garis Pemicu (Trigger) -->
+    <div id="smartPanelTrigger" onclick="toggleSmartPanel()" class="fixed right-0 top-1/2 -translate-y-1/2 bg-neutral-400/40 w-1.5 h-16 rounded-l-full cursor-pointer z-40 transition-all duration-300 hover:bg-yellow-400 hover:w-2 hover:shadow-[-2px_0_10px_rgba(250,204,21,0.5)] group flex items-center">
+        <div class="absolute -left-6 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <i data-lucide="chevron-left" class="w-5 h-5 text-yellow-500 drop-shadow-md"></i>
+        </div>
+    </div>
+
+    <!-- Lapisan transparan (hanya untuk mendeteksi klik di luar menu) -->
+    <div id="smartPanelOverlay" onclick="toggleSmartPanel()" class="fixed inset-0 z-40 hidden"></div>
+
+    <!-- Mini Pop-up Panel (Minimalis & Semi Transparan) -->
+    <div id="smartPanel" class="fixed right-3 top-1/2 -translate-y-1/2 bg-neutral-900/60 backdrop-blur-md p-2.5 rounded-2xl shadow-lg z-50 transform translate-x-16 opacity-0 pointer-events-none transition-all duration-300 ease-out border border-white/10 flex flex-col items-center">
+        <button onclick="toggleSmartPanel(); openAdminModal('add');" class="w-10 h-10 bg-white/20 text-yellow-400 rounded-xl flex items-center justify-center hover:bg-yellow-400 hover:text-neutral-900 hover:scale-110 active:scale-95 transition-all shadow-sm" title="Tambah Data">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+        </button>
+    </div>
+
     <!-- BOTTOM NAVIGATION -->
-    <nav class="fixed bottom-0 w-full bg-yellow-400 border-t border-yellow-500 shadow-[0_-8px_20px_rgba(250,204,21,0.3)] z-40 pb-safe">
+    <nav class="fixed bottom-0 w-full bg-neutral-900 border-t border-neutral-800 shadow-[0_-8px_20px_rgba(0,0,0,0.2)] z-30 pb-safe">
         <div class="max-w-md mx-auto flex justify-around items-center h-16 px-4">
-            <button onclick="switchView('home')" id="nav-home" class="nav-btn flex flex-col items-center justify-center w-full h-full text-neutral-900">
+            <button onclick="switchView('home')" id="nav-home" class="nav-btn flex flex-col items-center justify-center w-full h-full text-yellow-400 transition-colors">
                 <i data-lucide="home" class="w-5 h-5 mb-1 transition-transform scale-110"></i>
                 <span class="text-[10px] font-bold">Pencarian</span>
             </button>
-            <button onclick="switchView('dalil')" id="nav-dalil" class="nav-btn flex flex-col items-center justify-center w-full h-full text-yellow-700 hover:text-neutral-900 transition-colors">
+            <button onclick="switchView('dalil')" id="nav-dalil" class="nav-btn flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-yellow-400 transition-colors">
                 <i data-lucide="library" class="w-5 h-5 mb-1 transition-transform"></i>
                 <span class="text-[10px] font-bold">Dalil</span>
             </button>
-            <button onclick="switchView('kaifiyah')" id="nav-kaifiyah" class="nav-btn flex flex-col items-center justify-center w-full h-full text-yellow-700 hover:text-neutral-900 transition-colors">
+            <button onclick="switchView('kaifiyah')" id="nav-kaifiyah" class="nav-btn flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-yellow-400 transition-colors">
                 <i data-lucide="heart-handshake" class="w-5 h-5 mb-1 transition-transform"></i>
                 <span class="text-[10px] font-bold">Kaifiyah</span>
             </button>
@@ -185,34 +204,71 @@
     </div>
 
     <script>
-        // Endpoint Google Apps Script yang sudah dikonfigurasi (HANYA BUTUH URL INI)
+        // URL YANG ANDA BERIKAN TELAH DIAPLIKASIKAN DI SINI
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwE6Ln9Zvhu8GRRv0NrWjLsUYYILc7AwAKwQ6pryUtmNwq9dmZA3qkL3ns4cGwJSaOxZA/exec';
 
-        let state = {
-            query: '', homeTab: 'all', isLoading: false,
-            db: [], quran: []
-        };
+        let state = { query: '', homeTab: 'all', isLoading: false, db: [], quran: [] };
         let searchTimeout = null;
 
-        // FUNGSI BARU: Fetching Database via Apps Script dengan Deteksi Error Pintar
+        // --- FUNGSI SMART PANEL MINI ---
+        function toggleSmartPanel() {
+            const panel = document.getElementById('smartPanel');
+            const overlay = document.getElementById('smartPanelOverlay');
+            const trigger = document.getElementById('smartPanelTrigger');
+            
+            if (panel.classList.contains('opacity-0')) {
+                overlay.classList.remove('hidden');
+                trigger.classList.add('opacity-0', 'translate-x-4'); 
+                setTimeout(() => {
+                    panel.classList.remove('translate-x-16', 'opacity-0', 'pointer-events-none');
+                    panel.classList.add('translate-x-0', 'opacity-100', 'pointer-events-auto');
+                }, 10);
+            } else {
+                panel.classList.remove('translate-x-0', 'opacity-100', 'pointer-events-auto');
+                panel.classList.add('translate-x-16', 'opacity-0', 'pointer-events-none');
+                trigger.classList.remove('opacity-0', 'translate-x-4'); 
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+            lucide.createIcons();
+        }
+
+        // FUNGSI ANTI-ERROR: Membersihkan teks kotor dari Google sebelum di-parse
+        function safeParseJSON(str) {
+            try {
+                let cleanStr = str.replace(/^[\u0000-\u001F\uFEFF]+|[\u0000-\u001F\uFEFF]+$/g, '').trim();
+                return JSON.parse(cleanStr);
+            } catch (e) {
+                const match = str.match(/\{[\s\S]*\}/);
+                if (match) {
+                    try { return JSON.parse(match[0]); } catch(e2) {}
+                }
+                throw new Error("Format data tidak valid dari server.");
+            }
+        }
+
         async function initDatabase() {
             try {
-                const res = await fetch(APPS_SCRIPT_URL + '?action=getData', { redirect: 'follow' });
+                const url = APPS_SCRIPT_URL + '?action=getData&t=' + new Date().getTime();
+                const res = await fetch(url, { redirect: 'follow' });
                 const textData = await res.text();
                 
+                let result;
                 try {
-                    const data = JSON.parse(textData);
-                    // Gabungkan semua data dari berbagai sheet ke dalam 1 database aplikasi
-                    state.db = [...(data.kauniyah || []), ...(data.dalil || []), ...(data.kaifiyah || [])];
-                    console.log("Data berhasil dimuat:", state.db.length, "item.");
+                    result = safeParseJSON(textData);
                 } catch (parseError) {
-                    console.error("Kesalahan Parsing Data (Mungkin Apps Script belum di-deploy Versi Baru):", textData);
-                    showToast("Sistem belum di-update. Mohon Lakukan Deploy -> Versi Baru di Apps Script Anda.", "error");
+                    console.error("Gagal parse:", textData);
+                    showToast("Sistem membaca data lama. Lakukan Deploy -> Versi Baru di Apps Script Anda.", "error");
+                    return;
                 }
 
+                const data = result.data ? result.data : result;
+                if (data.kauniyah || data.dalil || data.kaifiyah) {
+                    state.db = [...(data.kauniyah || []), ...(data.dalil || []), ...(data.kaifiyah || [])];
+                } else if (result.status === 'error') {
+                    showToast("Gagal memuat data: " + result.message, "error");
+                }
             } catch (err) { 
-                console.error("Gagal load database", err); 
-                showToast("Gagal memuat data dari jaringan. Periksa koneksi internet.", "error");
+                showToast("Sistem gagal menarik data. Pastikan koneksi stabil.", "error");
             }
         }
 
@@ -238,7 +294,7 @@
         }
 
         async function executeSearch() {
-            const query = state.query.toLowerCase().trim();
+            const query = String(state.query || '').toLowerCase().trim();
             if (!query) {
                 state.quran = []; setLoading(false); renderHomeSearch(); return;
             }
@@ -264,24 +320,19 @@
             setTimeout(() => { e.classList.add('opacity-0', '-translate-y-4'); setTimeout(() => e.remove(), 300); }, 3000);
         }
 
-        function copyText(text) {
-            const ta = document.createElement("textarea"); ta.value = text;
-            document.body.appendChild(ta); ta.select();
-            try { document.execCommand('copy'); showToast('Teks berhasil disalin!'); } catch (err) { showToast('Gagal menyalin.', 'error'); }
-            document.body.removeChild(ta);
-        }
-
         function switchView(v) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`view-${v}`).classList.remove('hidden');
             
             document.querySelectorAll('.nav-btn').forEach(b => { 
-                b.classList.replace('text-neutral-900', 'text-yellow-700'); 
-                b.querySelector('i').classList.remove('scale-110');
+                b.classList.replace('text-yellow-400', 'text-slate-400'); 
+                const icon = b.querySelector('svg, i');
+                if (icon) icon.classList.remove('scale-110');
             });
             const activeBtn = document.getElementById(`nav-${v}`);
-            activeBtn.classList.replace('text-yellow-700', 'text-neutral-900'); 
-            activeBtn.querySelector('i').classList.add('scale-110');
+            activeBtn.classList.replace('text-slate-400', 'text-yellow-400'); 
+            const activeIcon = activeBtn.querySelector('svg, i');
+            if (activeIcon) activeIcon.classList.add('scale-110');
             
             const title = document.getElementById('headerTitle'); const sub = document.getElementById('headerSubtitle');
             if(v==='home') { title.innerHTML=`<i data-lucide="book-open" class="w-8 h-8"></i> MaknaQu`; sub.innerText="Eksplorasi Kauniyah & Pencari Ayat Harfiyah"; renderHomeSearch(); }
@@ -292,18 +343,21 @@
 
         function renderHomeSearch() {
             const c = document.getElementById('mainContent');
-            const q = state.query.trim().toLowerCase();
+            const q = String(state.query || '').trim().toLowerCase();
             if (!q && state.homeTab === 'all') {
                 c.innerHTML = `<div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi makna.</p></div>`;
                 lucide.createIcons(); return;
             }
 
-            let dataKauniyah = state.db.filter(i => i.category === 'KAUNIYAH');
-            let dataHadis = state.db.filter(i => i.category === 'HADIS');
+            let dataKauniyah = state.db.filter(i => {
+                const cat = String(i.category || '').trim().toUpperCase();
+                return cat === 'KAUNIYAH' || cat === '';
+            });
+            let dataHadis = state.db.filter(i => String(i.category || '').trim().toUpperCase() === 'HADIS');
 
             if (q) {
-                dataKauniyah = dataKauniyah.filter(i => i.word.toLowerCase().includes(q) || i.maknaPositif.toLowerCase().includes(q));
-                dataHadis = dataHadis.filter(i => i.word.toLowerCase().includes(q) || i.maknaPositif.toLowerCase().includes(q) || i.maknaNegatif.toLowerCase().includes(q));
+                dataKauniyah = dataKauniyah.filter(i => String(i.word || '').toLowerCase().includes(q) || String(i.maknaPositif || '').toLowerCase().includes(q));
+                dataHadis = dataHadis.filter(i => String(i.word || '').toLowerCase().includes(q) || String(i.maknaPositif || '').toLowerCase().includes(q) || String(i.maknaNegatif || '').toLowerCase().includes(q));
             }
 
             let html = '';
@@ -311,15 +365,15 @@
             if ((state.homeTab === 'all' || state.homeTab === 'kauniyah') && dataKauniyah.length > 0) {
                 html += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Makna Kauniyah</h2><div class="grid gap-4 md:grid-cols-2">`;
                 html += dataKauniyah.map(i => {
-                    const text = `Kata: ${i.word}\nPositif: ${i.maknaPositif}\nNegatif: ${i.maknaNegatif}`;
+                    const word = String(i.word || ''); const positif = String(i.maknaPositif || ''); const negatif = String(i.maknaNegatif || '');
                     return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">
-                        ${i.image ? `<img src="${i.image}" alt="${i.word}" class="w-full h-32 object-cover bg-slate-100" onerror="this.style.display='none'">` : ''}
+                        ${i.image ? `<img src="${i.image}" alt="cover" class="w-full h-32 object-cover bg-slate-100" onerror="this.style.display='none'">` : ''}
                         <div class="p-5 flex-1">
-                            <button onclick="copyText(\`${text}\`)" class="absolute top-4 right-4 text-slate-300 hover:text-emerald-500 bg-white shadow-md p-2 rounded-full transition-colors z-10"><i data-lucide="copy" class="w-4 h-4"></i></button>
-                            <h3 class="text-xl font-bold text-slate-800 mb-3 border-b pb-2 pr-10">${i.word}</h3>
+                            <button onclick="openAdminModal('update', '${i.id}')" class="absolute top-4 right-4 text-slate-300 hover:text-yellow-600 bg-white shadow-md p-2 rounded-full transition-colors z-10" title="Edit Data"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                            <h3 class="text-xl font-bold text-slate-800 mb-3 border-b pb-2 pr-10">${word}</h3>
                             <div class="space-y-2">
-                                ${i.maknaPositif ? `<div class="bg-emerald-50 p-3 rounded-2xl text-sm"><b class="text-emerald-700 block mb-1">Positif:</b> ${i.maknaPositif}</div>` : ''}
-                                ${i.maknaNegatif ? `<div class="bg-rose-50 p-3 rounded-2xl text-sm"><b class="text-rose-700 block mb-1">Negatif:</b> ${i.maknaNegatif}</div>` : ''}
+                                ${positif ? `<div class="bg-emerald-50 p-3 rounded-2xl text-sm"><b class="text-emerald-700 block mb-1">Positif:</b> ${positif}</div>` : ''}
+                                ${negatif ? `<div class="bg-rose-50 p-3 rounded-2xl text-sm"><b class="text-rose-700 block mb-1">Negatif:</b> ${negatif}</div>` : ''}
                                 ${i.keterangan ? `<p class="text-xs text-slate-400 italic mt-2">${i.keterangan}</p>` : ''}
                             </div>
                         </div>
@@ -330,12 +384,12 @@
             if ((state.homeTab === 'all' || state.homeTab === 'hadis') && dataHadis.length > 0) {
                 html += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Dalil Hadis</h2><div class="space-y-3">`;
                 html += dataHadis.map(i => {
-                    const text = `"${i.maknaPositif}"\n(${i.maknaNegatif})`;
+                    const word = String(i.word || ''); const positif = String(i.maknaPositif || ''); const negatif = String(i.maknaNegatif || '');
                     return `<div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm border-l-4 border-l-blue-400 relative">
-                        <button onclick="copyText(\`${text}\`)" class="absolute top-4 right-4 text-slate-300 hover:text-blue-500 bg-slate-50 p-2 rounded-full"><i data-lucide="copy" class="w-4 h-4"></i></button>
-                        <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded mb-2 inline-block">Topik: ${i.word}</span>
-                        <p class="text-slate-700 font-medium leading-relaxed italic pr-10">"${i.maknaPositif}"</p>
-                        <p class="text-sm text-slate-400 mt-2 font-bold">— ${i.maknaNegatif}</p>
+                        <button onclick="openAdminModal('update', '${i.id}')" class="absolute top-4 right-4 text-slate-300 hover:text-yellow-600 bg-white shadow-sm p-2 rounded-full transition-colors z-10" title="Edit Data"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                        <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded mb-2 inline-block">Topik: ${word}</span>
+                        <p class="text-slate-700 font-medium leading-relaxed italic pr-10">"${positif}"</p>
+                        <p class="text-sm text-slate-400 mt-2 font-bold">— ${negatif}</p>
                     </div>`;
                 }).join(''); html += `</div></div>`;
             }
@@ -356,22 +410,30 @@
         }
 
         function renderDalilList() {
-            const d = state.db.filter(i => i.category === 'PANDUAN_DALIL');
+            const d = state.db.filter(i => {
+                const cat = String(i.category || '').trim().toUpperCase();
+                return cat === 'PANDUAN_DALIL' || cat === 'HADIS';
+            });
             document.getElementById('dalilList').innerHTML = d.map(i => {
-                const media = i.image ? `<img src="${i.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 bg-slate-50" onerror="this.style.display='none'">` : `<div class="bg-blue-50 p-3 rounded-xl text-blue-500 shrink-0"><i data-lucide="book" class="w-6 h-6"></i></div>`;
-                return `<div onclick="openReader('${i.id}', 'Panduan Keilmuan')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-start gap-4">
-                    ${media} <div class="flex-1"><h3 class="font-bold text-slate-800 mb-1 leading-tight">${i.word}</h3><p class="text-xs text-slate-400 line-clamp-2">${i.maknaPositif.replace(/<[^>]*>?/gm, '')}</p></div>
+                const isHadis = String(i.category || '').trim().toUpperCase() === 'HADIS';
+                const icon = isHadis ? 'message-circle' : 'book';
+                const label = isHadis ? 'Dalil Hadis' : 'Panduan Keilmuan';
+                const word = String(i.word || '');
+                const media = i.image ? `<img src="${i.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 bg-slate-50" onerror="this.style.display='none'">` : `<div class="bg-blue-50 p-3 rounded-xl text-blue-500 shrink-0"><i data-lucide="${icon}" class="w-6 h-6"></i></div>`;
+                return `<div onclick="openReader('${i.id}', '${label}')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-start gap-4">
+                    ${media} <div class="flex-1"><h3 class="font-bold text-slate-800 mb-1 leading-tight">${word}</h3><p class="text-xs text-slate-400 line-clamp-2">${String(i.maknaPositif || '').replace(/<[^>]*>?/gm, '')}</p></div>
                 </div>`;
-            }).join('') || '<p class="text-slate-400 text-sm">Belum ada panduan tersedia.</p>';
+            }).join('') || '<p class="text-slate-400 text-sm">Belum ada panduan/dalil tersedia.</p>';
             lucide.createIcons();
         }
 
         function renderKaifiyahList() {
-            const k = state.db.filter(i => i.category === 'KAIFIYAH');
+            const k = state.db.filter(i => String(i.category || '').trim().toUpperCase() === 'KAIFIYAH');
             document.getElementById('kaifiyahList').innerHTML = k.map(i => {
+                const word = String(i.word || '');
                 const media = i.image ? `<img src="${i.image}" class="w-14 h-14 rounded-full object-cover shrink-0 border-2 border-emerald-100" onerror="this.style.display='none'">` : `<div class="bg-emerald-50 p-3 rounded-full text-emerald-500 shrink-0"><i data-lucide="sparkles" class="w-5 h-5"></i></div>`;
                 return `<div onclick="openReader('${i.id}', 'Panduan Amalan')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-4 flex-1">${media} <h3 class="font-bold text-slate-800 leading-tight">${i.word}</h3></div>
+                    <div class="flex items-center gap-4 flex-1">${media} <h3 class="font-bold text-slate-800 leading-tight">${word}</h3></div>
                     <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
                 </div>`;
             }).join('') || '<p class="text-slate-400 text-sm">Belum ada amalan tersedia.</p>';
@@ -382,8 +444,8 @@
             const i = state.db.find(x => x.id === id);
             if (!i) return;
             document.getElementById('readerCategory').innerText = cat;
-            document.getElementById('readerTitle').innerText = i.word;
-            document.getElementById('readerContent').innerHTML = i.maknaPositif;
+            document.getElementById('readerTitle').innerText = String(i.word || '');
+            document.getElementById('readerContent').innerHTML = String(i.maknaPositif || '');
             const img = document.getElementById('readerImage');
             if(i.image) { img.src = i.image; img.classList.remove('hidden'); } else img.classList.add('hidden');
             
@@ -412,13 +474,13 @@
             } else if(id) {
                 const item = state.db.find(x => x.id === id);
                 if(item) {
-                    document.getElementById('itemCategory').value = item.category;
+                    document.getElementById('itemCategory').value = String(item.category || '').toUpperCase();
                     document.getElementById('itemCategory').disabled = true;
                     adjustAdminForm();
-                    document.getElementById('newWord').value = item.word;
-                    document.getElementById('newPositif').value = item.maknaPositif;
-                    document.getElementById('newNegatif').value = item.maknaNegatif;
-                    document.getElementById('newKet').value = item.keterangan || '';
+                    document.getElementById('newWord').value = String(item.word || '');
+                    document.getElementById('newPositif').value = String(item.maknaPositif || '');
+                    document.getElementById('newNegatif').value = String(item.maknaNegatif || '');
+                    document.getElementById('newKet').value = String(item.keterangan || '');
                     document.getElementById('newImage').value = item.image || ''; 
                 }
             }
@@ -442,23 +504,26 @@
                     
                     const textData = await res.text();
                     
+                    let result;
                     try {
-                        const result = JSON.parse(textData);
-                        if(result.status === 'success') {
-                            document.getElementById('loginOverlay').style.display = 'none';
-                            document.getElementById('appContainer').classList.remove('hidden');
-                            showToast('Selamat datang di MaknaQu', 'success');
-                            await initDatabase();
-                            renderHomeSearch();
-                        } else {
-                            showToast(result.message, 'error');
-                        }
+                        result = safeParseJSON(textData);
                     } catch (parseErr) {
-                        console.error("Kesalahan parsing login (Pastikan versi baru sudah di-deploy):", textData);
+                        console.error("Kesalahan parsing login:", textData);
                         showToast("Sistem belum di-update. Mohon Lakukan Deploy -> Versi Baru.", "error");
+                        return;
+                    }
+
+                    if(result.status === 'success') {
+                        document.getElementById('loginOverlay').style.display = 'none';
+                        document.getElementById('appContainer').classList.remove('hidden');
+                        showToast('Selamat datang di MaknaQu', 'success');
+                        await initDatabase();
+                        renderHomeSearch();
+                    } else {
+                        showToast(result.message, 'error');
                     }
                 } catch (err) { 
-                    showToast('Kesalahan jaringan saat memverifikasi sandi.', 'error'); 
+                    showToast('Kesalahan jaringan. Pastikan Deploy sebagai "Me" dan Akses "Anyone".', 'error'); 
                 }
                 finally { btn.disabled = false; btn.innerHTML = `<i data-lucide="unlock" class="w-5 h-5"></i> Masuk`; lucide.createIcons(); }
             });
@@ -479,8 +544,8 @@
 
             document.querySelectorAll('.home-tab-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.home-tab-btn').forEach(b => b.className = "home-tab-btn px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2");
-                    const t = e.currentTarget; t.className = "home-tab-btn active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center gap-2";
+                    document.querySelectorAll('.home-tab-btn').forEach(b => b.className = "home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2");
+                    const t = e.currentTarget; t.className = "home-tab-btn shrink-0 active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center gap-2";
                     state.homeTab = t.getAttribute('data-tab'); renderHomeSearch();
                 });
             });
@@ -508,19 +573,23 @@
                     });
                     const textData = await res.text();
                     
+                    let result;
                     try {
-                        const result = JSON.parse(textData);
-                        if(result.status === 'success') {
-                            showToast(result.message, 'success');
-                            closeAdminModal();
-                            await initDatabase(); executeSearch(); 
-                            if(state.homeTab === 'dalil') renderDalilList();
-                            if(state.homeTab === 'kaifiyah') renderKaifiyahList();
-                        } else showToast(result.message, 'error');
+                        result = safeParseJSON(textData);
                     } catch (parseErr) {
-                         showToast("Penyimpanan gagal. Sistem belum di-update (Deploy ke Versi Baru).", "error");
+                         console.error("Kesalahan parsing simpan data:", textData);
+                         showToast("Penyimpanan gagal. Sistem belum di-update.", "error");
+                         return;
                     }
-                } catch (err) { showToast('Gagal menyimpan. Cek koneksi.', 'error'); }
+
+                    if(result.status === 'success') {
+                        showToast(result.message, 'success');
+                        closeAdminModal();
+                        await initDatabase(); executeSearch(); 
+                        if(state.homeTab === 'dalil') renderDalilList();
+                        if(state.homeTab === 'kaifiyah') renderKaifiyahList();
+                    } else showToast(result.message, 'error');
+                } catch (err) { showToast('Gagal menyimpan. Cek koneksi internet Anda.', 'error'); }
                 finally { btn.disabled = false; btn.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan Data`; lucide.createIcons(); }
             });
         });
