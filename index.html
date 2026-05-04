@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MaknaQu - Eksplorasi Makna & Amalan</title>
-    <!-- 1. INI ADALAH LOGO UNTUK ICON BROWSER (FAVICON) -->
-    <!-- Ganti "logo-maknaqu.png" dengan URL atau nama file logo Anda jika berbeda -->
+    <!-- LOGO UNTUK ICON BROWSER (FAVICON) -->
     <link rel="icon" type="image/png" href="logo-maknaqu.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -45,9 +44,13 @@
     <div id="loginOverlay" class="fixed inset-0 bg-slate-50 flex items-center justify-center p-4" style="z-index: 9999;">
         <div class="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl text-center fade-in">
             
-            <!-- 2. INI ADALAH LOGO UNTUK HALAMAN LOGIN -->
-            <!-- Saya telah mengganti icon gembok dengan gambar logo Anda -->
-            <img src="logo-maknaqu.png" alt="Logo MaknaQu" class="w-24 h-24 mx-auto mb-4 object-contain drop-shadow-md">
+            <!-- LOGO DAN LABEL VERSI (Diperbaiki agar tidak hilang) -->
+            <div class="mb-6 flex flex-col items-center justify-center">
+                <img src="logo-maknaqu.png" alt="Logo MaknaQu" class="w-24 h-24 mb-3 object-contain drop-shadow-md rounded-2xl">
+                <span class="bg-slate-50 text-slate-400 text-[10px] font-bold px-3 py-1 rounded-full tracking-widest border border-slate-200 shadow-sm">
+                    VERSI 02
+                </span>
+            </div>
             
             <h2 class="text-2xl font-bold mb-2 text-slate-800">Akses MaknaQu</h2>
             <p class="text-sm text-slate-500 mb-6">Masukkan kata sandi untuk mengeksplorasi ilmu dan makna.</p>
@@ -208,7 +211,6 @@
     </div>
 
     <script>
-        // URL YANG ANDA BERIKAN TELAH DIAPLIKASIKAN DI SINI
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwE6Ln9Zvhu8GRRv0NrWjLsUYYILc7AwAKwQ6pryUtmNwq9dmZA3qkL3ns4cGwJSaOxZA/exec';
 
         let state = { query: '', homeTab: 'all', isLoading: false, db: [], quran: [] };
