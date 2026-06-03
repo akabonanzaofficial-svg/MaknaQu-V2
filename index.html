@@ -215,6 +215,19 @@
 
         let state = { query: '', homeTab: 'all', isLoading: false, db: [], quran: [] };
         let searchTimeout = null;
+        
+        // --- MULAI PASTE KODE BARU DI SINI ---
+        // Fungsi ini mewarnai teks yang dicari tanpa merusak struktur HTML dari Editor
+        function highlightText(text, query) {
+            if (!query || !text) return text;
+            // Bersihkan karakter khusus dari kata kunci
+            const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            // Deteksi kata yang dicari, tapi abaikan jika kata itu ada di dalam tag HTML
+            const regex = new RegExp(`(${safeQuery})(?![^<]*>)`, 'gi');
+            // Bungkus kata yang cocok dengan tag <mark> kuning dari Tailwind
+            return String(text).replace(regex, `<mark class="bg-yellow-300 text-slate-900 px-1 rounded-md font-bold">$&</mark>`);
+        }
+        // --- BATAS AKHIR KODE BARU ---
 
         // --- FUNGSI SMART PANEL MINI ---
         function toggleSmartPanel() {
