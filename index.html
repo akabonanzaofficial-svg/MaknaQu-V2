@@ -361,71 +361,61 @@
         }
 
         function renderHomeSearch() {
-            const c = document.getElementById('mainContent');
+            const c = document.getElementById('mainContent'); 
             const q = String(state.query || '').trim().toLowerCase();
-            if (!q && state.homeTab === 'all') {
-                c.innerHTML = `<div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi makna.</p></div>`;
-                lucide.createIcons(); return;
+            
+            if (!q && state.homeTab === 'all') { 
+                c.innerHTML = `<div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi makna.</p></div>`; 
+                lucide.createIcons(); return; 
             }
 
-            let dataKauniyah = state.db.filter(i => {
-                const cat = String(i.category || '').trim().toUpperCase();
-                return cat === 'KAUNIYAH' || cat === '';
-            });
-            let dataHadis = state.db.filter(i => String(i.category || '').trim().toUpperCase() === 'HADIS');
-
+            let dKau = state.db.filter(i => { const cat = String(i.category||'').trim().toUpperCase(); return cat === 'KAUNIYAH' || cat === ''; });
+            let dHad = state.db.filter(i => String(i.category||'').trim().toUpperCase() === 'HADIS');
+            
             if (q) {
-                dataKauniyah = dataKauniyah.filter(i => String(i.word || '').toLowerCase().includes(q) || String(i.maknaPositif || '').toLowerCase().includes(q));
-                dataHadis = dataHadis.filter(i => String(i.word || '').toLowerCase().includes(q) || String(i.maknaPositif || '').toLowerCase().includes(q) || String(i.maknaNegatif || '').toLowerCase().includes(q));
+                dKau = dKau.filter(i => String(i.word||'').toLowerCase().includes(q) || String(i.maknaPositif||'').toLowerCase().includes(q));
+                dHad = dHad.filter(i => String(i.word||'').toLowerCase().includes(q) || String(i.maknaPositif||'').toLowerCase().includes(q) || String(i.maknaNegatif||'').toLowerCase().includes(q));
             }
 
-            let html = '';
-
-            if ((state.homeTab === 'all' || state.homeTab === 'kauniyah') && dataKauniyah.length > 0) {
-                html += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Makna Kauniyah</h2><div class="grid gap-4 md:grid-cols-2">`;
-                html += dataKauniyah.map(i => {
-                    const word = String(i.word || ''); const positif = String(i.maknaPositif || ''); const negatif = String(i.maknaNegatif || '');
-                    return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">
-                        ${i.image ? `<img src="${i.image}" alt="cover" class="w-full h-32 object-cover bg-slate-100" onerror="this.style.display='none'">` : ''}
-                        <div class="p-5 flex-1">
-                            <button onclick="openAdminModal('update', '${i.id}')" class="absolute top-4 right-4 text-slate-300 hover:text-yellow-600 bg-white shadow-md p-2 rounded-full transition-colors z-10" title="Edit Data"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                            <h3 class="text-xl font-bold text-slate-800 mb-3 border-b pb-2 pr-10">${word}</h3>
-                            <div class="space-y-2">
-                                ${positif ? `<div class="bg-emerald-50 p-3 rounded-2xl text-sm"><b class="text-emerald-700 block mb-1">Positif:</b> ${positif}</div>` : ''}
-                                ${negatif ? `<div class="bg-rose-50 p-3 rounded-2xl text-sm"><b class="text-rose-700 block mb-1">Negatif:</b> ${negatif}</div>` : ''}
-                                ${i.keterangan ? `<p class="text-xs text-slate-400 italic mt-2">${i.keterangan}</p>` : ''}
-                            </div>
-                        </div>
-                    </div>`;
-                }).join(''); html += `</div></div>`;
+            let h = '';
+            if ((state.homeTab === 'all' || state.homeTab === 'kauniyah') && dKau.length > 0) {
+                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Makna Kauniyah</h2><div class="grid gap-4 md:grid-cols-2">`;
+                h += dKau.map(i => {
+                    // Di sinilah fungsi penyorot warna (highlight) bekerja
+                    const w = highlightText(i.word, q);
+                    const p = highlightText(i.maknaPositif, q);
+                    const n = highlightText(i.maknaNegatif, q);
+                    const k = highlightText(i.keterangan, q);
+                    
+                    return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">${i.image ? `<img src="${i.image}" class="w-full h-32 object-cover bg-slate-100" onerror="this.style.display='none'">` : ''}<div class="p-5 flex-1"><button onclick="openAdminModal('update', '${i.id}')" class="absolute top-4 right-4 text-slate-300 hover:text-yellow-600 bg-white shadow-md p-2 rounded-full z-10"><i data-lucide="edit-3" class="w-4 h-4"></i></button><h3 class="text-xl font-bold text-slate-800 mb-3 border-b pb-2 pr-10">${w}</h3><div class="space-y-2">${p ? `<div class="bg-emerald-50 p-3 rounded-2xl text-sm prose-custom"><b class="text-emerald-700 block mb-1">Makna Kauniyah Positif:</b> ${p}</div>` : ''}${n ? `<div class="bg-rose-50 p-3 rounded-2xl text-sm prose-custom"><b class="text-rose-700 block mb-1">Negatif:</b> ${n}</div>` : ''}${k ? `<p class="text-xs text-slate-400 italic mt-2">${k}</p>` : ''}</div></div></div>`;
+                }).join(''); 
+                h += `</div></div>`;
             }
 
-            if ((state.homeTab === 'all' || state.homeTab === 'hadis') && dataHadis.length > 0) {
-                html += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Dalil Hadis</h2><div class="space-y-3">`;
-                html += dataHadis.map(i => {
-                    const word = String(i.word || ''); const positif = String(i.maknaPositif || ''); const negatif = String(i.maknaNegatif || '');
-                    return `<div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm border-l-4 border-l-blue-400 relative">
-                        <button onclick="openAdminModal('update', '${i.id}')" class="absolute top-4 right-4 text-slate-300 hover:text-yellow-600 bg-white shadow-sm p-2 rounded-full transition-colors z-10" title="Edit Data"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                        <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded mb-2 inline-block">Topik: ${word}</span>
-                        <p class="text-slate-700 font-medium leading-relaxed italic pr-10">"${positif}"</p>
-                        <p class="text-sm text-slate-400 mt-2 font-bold">— ${negatif}</p>
-                    </div>`;
-                }).join(''); html += `</div></div>`;
+            if ((state.homeTab === 'all' || state.homeTab === 'hadis') && dHad.length > 0) {
+                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Dalil Hadis</h2><div class="space-y-3">`;
+                h += dHad.map(i => {
+                    const w = highlightText(i.word, q);
+                    const p = highlightText(i.maknaPositif, q);
+                    const n = highlightText(i.maknaNegatif, q);
+                    
+                    return `<div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm border-l-4 border-l-blue-400 relative"><button onclick="openAdminModal('update', '${i.id}')" class="absolute top-4 right-4 text-slate-300 hover:text-yellow-600 bg-white shadow-sm p-2 rounded-full z-10"><i data-lucide="edit-3" class="w-4 h-4"></i></button><span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded mb-2 inline-block">Topik: ${w}</span><div class="text-slate-700 font-medium leading-relaxed italic pr-10 prose-custom">"${p}"</div><p class="text-sm text-slate-400 mt-2 font-bold">— ${n}</p></div>`;
+                }).join(''); 
+                h += `</div></div>`;
             }
 
             if ((state.homeTab === 'all' || state.homeTab === 'quran') && state.quran.length > 0) {
-                html += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="book" class="w-4 h-4"></i> Harfiyah (Al-Quran)</h2><div class="space-y-4">`;
-                html += state.quran.map(i => `
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative">
-                        <div class="flex justify-between items-center mb-4"><span class="bg-yellow-100 text-yellow-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase">${i.surah} : ${i.ayat}</span></div>
-                        <p class="text-2xl font-arabic text-right mb-4 leading-loose dir-rtl">${i.arabic}</p>
-                        <div class="bg-slate-50 p-4 rounded-2xl text-sm text-slate-600 leading-relaxed"><b class="text-slate-800 block mb-1">Terjemah:</b> ${i.translation}</div>
-                    </div>`).join('');
-                html += `</div></div>`;
+                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="book" class="w-4 h-4"></i> Harfiyah (Al-Quran)</h2><div class="space-y-4">`;
+                h += state.quran.map(i => {
+                    const tr = highlightText(i.translation, q);
+                    
+                    return `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative"><div class="flex justify-between items-center mb-4"><span class="bg-yellow-100 text-yellow-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase">${i.surah} : ${i.ayat}</span></div><p class="text-2xl font-arabic text-right mb-4 leading-loose dir-rtl">${i.arabic}</p><div class="bg-slate-50 p-4 rounded-2xl text-sm text-slate-600 leading-relaxed"><b class="text-slate-800 block mb-1">Terjemah:</b> ${tr}</div></div>`;
+                }).join(''); 
+                h += `</div></div>`;
             }
 
-            if (html === '') html = `<div class="text-center py-12 bg-white rounded-3xl border border-slate-100 fade-in"><i data-lucide="inbox" class="w-12 h-12 mx-auto text-slate-200 mb-4"></i><p class="text-slate-500">Tidak ada hasil yang cocok.</p></div>`;
-            c.innerHTML = html; lucide.createIcons();
+            if (h === '') h = `<div class="text-center py-12 bg-white rounded-3xl border border-slate-100 fade-in"><i data-lucide="inbox" class="w-12 h-12 mx-auto text-slate-200 mb-4"></i><p class="text-slate-500">Tidak ada hasil yang cocok.</p></div>`;
+            c.innerHTML = h; lucide.createIcons();
         }
 
         function renderDalilList() {
