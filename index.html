@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
     
     <style>
+        :root { --base-font-size: 16px; }
         .font-arabic { font-family: 'Amiri', serif; }
         .dir-rtl { direction: rtl; text-align: right; }
         
@@ -33,7 +34,7 @@
         .prose-custom ol { margin-left: 1.5rem; margin-bottom: 1rem; list-style-type: decimal; }
         .prose-custom li { margin-bottom: 0.5rem; }
         
-        body { padding-bottom: 90px; }
+        body { padding-bottom: 90px; font-size: var(--base-font-size); }
     </style>
 </head>
 <body class="min-h-screen bg-slate-50 font-sans text-slate-800 overflow-x-hidden">
@@ -55,8 +56,8 @@
             <h2 class="text-2xl font-bold mb-2 text-slate-800">Akses MaknaQu</h2>
             <p class="text-sm text-slate-500 mb-6">Masukkan kata sandi untuk mengeksplorasi ilmu dan makna.</p>
             <form id="userLoginForm" class="space-y-4">
-                <input type="password" id="userPass" placeholder="Kata Sandi" class="w-full p-4 rounded-xl border border-slate-200 focus:border-yellow-400 outline-none bg-slate-50 text-center font-bold" required>
-                <button type="submit" id="userLoginBtn" class="w-full bg-yellow-500 text-white py-4 rounded-xl font-bold hover:bg-yellow-600 transition-all shadow-lg shadow-yellow-500/30 flex items-center justify-center gap-2">
+                <input type="password" id="userPass" placeholder="Kata Sandi" class="w-full p-4 rounded-xl border border-slate-200 focus:border-yellow-400 outline-none bg-slate-50 text-center font-bol[...]
+                <button type="submit" id="userLoginBtn" class="w-full bg-yellow-500 text-white py-4 rounded-xl font-bold hover:bg-yellow-600 transition-all shadow-lg shadow-yellow-500/30 flex items-ce[...]
                     <i data-lucide="unlock" class="w-5 h-5"></i> Masuk
                 </button>
             </form>
@@ -92,17 +93,17 @@
             <!-- TABS AREA: Kiri Tetap (Fixed), Kanan Bergeser (Scroll) -->
             <div class="flex items-center mb-8 bg-white p-1 rounded-full shadow-sm max-w-full w-fit mx-auto border border-slate-200">
                 <div class="shrink-0 pr-2 mr-1 border-r border-slate-100 relative z-10 bg-white rounded-l-full">
-                    <button data-tab="all" class="home-tab-btn shrink-0 active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center gap-2"><i data-lucide="inbox" class="w-4 h-4"></i> Semua</button>
+                    <button data-tab="all" class="home-tab-btn shrink-0 active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center ga[...]"
                 </div>
                 <div class="flex gap-2 overflow-x-auto hide-scrollbar scroll-smooth w-full pr-2">
-                    <button data-tab="kauniyah" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Kauniyah</button>
-                    <button data-tab="quran" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="book" class="w-4 h-4"></i> Harfiyah</button>
-                    <button data-tab="hadis" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Hadis</button>
+                    <button data-tab="kauniyah" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i d[...]
+                    <button data-tab="quran" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-luc[...]
+                    <button data-tab="hadis" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-luc[...]
                 </div>
             </div>
 
             <div id="mainContent" class="space-y-6 pb-6">
-                <div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi mak</p></div>
+                <div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi mak[...]
             </div>
         </main>
 
@@ -126,7 +127,7 @@
 
     <!-- SMART EDGE PANEL MINI -->
     <!-- Garis Pemicu (Trigger) -->
-    <div id="smartPanelTrigger" onclick="toggleSmartPanel()" class="fixed right-0 top-1/2 -translate-y-1/2 bg-neutral-400/40 w-1.5 h-16 rounded-l-full cursor-pointer z-40 transition-all duration-300 hover:bg-neutral-600/60 group">
+    <div id="smartPanelTrigger" onclick="toggleSmartPanel()" class="fixed right-0 top-1/2 -translate-y-1/2 bg-neutral-400/40 w-1.5 h-16 rounded-l-full cursor-pointer z-40 transition-all duration-[...]">
         <div class="absolute -left-6 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             <i data-lucide="chevron-left" class="w-5 h-5 text-yellow-500 drop-shadow-md"></i>
         </div>
@@ -136,10 +137,27 @@
     <div id="smartPanelOverlay" onclick="toggleSmartPanel()" class="fixed inset-0 z-40 hidden"></div>
 
     <!-- Mini Pop-up Panel (Minimalis & Semi Transparan) -->
-    <div id="smartPanel" class="fixed right-3 top-1/2 -translate-y-1/2 bg-neutral-900/60 backdrop-blur-md p-2.5 rounded-2xl shadow-lg z-50 transform translate-x-16 opacity-0 pointer-events-none transition-all duration-300">
-        <button onclick="toggleSmartPanel(); openAdminModal('add');" class="w-10 h-10 bg-white/20 text-yellow-400 rounded-xl flex items-center justify-center hover:bg-yellow-400 hover:text-neutral-900 transition-all">
+    <div id="smartPanel" class="fixed right-3 top-1/2 -translate-y-1/2 bg-neutral-900/60 backdrop-blur-md p-2.5 rounded-2xl shadow-lg z-50 transform translate-x-16 opacity-0 pointer-events-none t[...]">
+        <button onclick="toggleSmartPanel(); openAdminModal('add');" class="w-10 h-10 bg-white/20 text-yellow-400 rounded-xl flex items-center justify-center hover:bg-yellow-400 hover:text-neutra[...]">
             <i data-lucide="plus" class="w-5 h-5"></i>
         </button>
+
+        <!-- Kontrol Ukuran Huruf (Aksesibilitas) -->
+        <div class="mt-2 p-2 rounded-xl bg-neutral-900/30 text-sm text-slate-100">
+          <div class="text-xs font-semibold mb-2 uppercase tracking-wider">Ukuran Huruf</div>
+          <div class="flex items-center gap-2">
+            <button id="fontDec" aria-label="Perkecil huruf" class="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center text-yellow-400">
+              <i data-lucide="minus" class="w-4 h-4"></i>
+            </button>
+
+            <input id="fontSizeRange" type="range" min="12" max="24" step="1" value="16" class="w-36 accent-yellow-400" aria-label="Atur ukuran huruf">
+
+            <button id="fontInc" aria-label="Perbesar huruf" class="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center text-yellow-400">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <div id="fontSizeLabel" class="text-xs text-slate-300 mt-2">16px</div>
+        </div>
     </div>
 
     <!-- BOTTOM NAVIGATION -->
@@ -153,7 +171,7 @@
                 <i data-lucide="library" class="w-5 h-5 mb-1 transition-transform"></i>
                 <span class="text-[10px] font-bold">Dalil</span>
             </button>
-            <button onclick="switchView('kaifiyah')" id="nav-kaifiyah" class="nav-btn flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-yellow-400 transition-colors">
+            <button onclick="switchView('kaifiyah')" id="nav-kaifiyah" class="nav-btn flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-yellow-400 transition-color[...]">
                 <i data-lucide="heart-handshake" class="w-5 h-5 mb-1 transition-transform"></i>
                 <span class="text-[10px] font-bold">Kaifiyah</span>
             </button>
@@ -200,7 +218,7 @@
                 </select>
                 <input type="text" id="newWord" placeholder="Judul / Kata" class="w-full p-3 rounded-xl border border-slate-200 outline-none text-sm" required>
                 <textarea id="newPositif" placeholder="Isi / Makna Positif" class="w-full p-3 rounded-xl border border-slate-200 outline-none h-24 text-sm" required></textarea>
-                <div id="containerNegatif"><textarea id="newNegatif" placeholder="Makna Negatif / Perawi" class="w-full p-3 rounded-xl border border-slate-200 outline-none h-20 text-sm"></textarea></div>
+                <div id="containerNegatif"><textarea id="newNegatif" placeholder="Makna Negatif / Perawi" class="w-full p-3 rounded-xl border border-slate-200 outline-none h-20 text-sm"></textare[...]
                 <input type="text" id="newKet" placeholder="Keterangan Tambahan (Opsional)" class="w-full p-3 rounded-xl border border-slate-200 outline-none text-sm">
                 <input type="url" id="newImage" placeholder="URL Gambar / Link Foto (Opsional)" class="w-full p-3 rounded-xl border border-slate-200 outline-none text-sm bg-slate-50">
                 <button type="submit" id="submitBtn" class="w-full bg-neutral-900 text-yellow-400 py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2">
@@ -334,7 +352,7 @@
             const c = document.getElementById('toastContainer');
             const e = document.createElement('div');
             e.className = `p-4 rounded-2xl shadow-lg border bg-white flex items-center gap-3 fade-in pointer-events-auto`;
-            e.innerHTML = `<i data-lucide="${t==='success'?'check-circle':'alert-circle'}" class="w-5 h-5 ${t==='success'?'text-emerald-500':'text-rose-500'}"></i> <span class="text-sm font-bold text-slate-700">${m}</span>`;
+            e.innerHTML = `<i data-lucide="${t==='success'?'check-circle':'alert-circle'}" class="w-5 h-5 ${t==='success'?'text-emerald-500':'text-rose-500'}"></i> <span class="text-sm font-bold text-[...]
             c.appendChild(e); lucide.createIcons();
             setTimeout(() => { e.classList.add('opacity-0', '-translate-y-4'); setTimeout(() => e.remove(), 300); }, 3000);
         }
@@ -365,7 +383,7 @@
             const q = String(state.query || '').trim().toLowerCase();
             
             if (!q && state.homeTab === 'all') { 
-                c.innerHTML = `<div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi mak</p></div>`;
+                c.innerHTML = `<div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai[...]
                 lucide.createIcons(); return; 
             }
 
@@ -379,7 +397,7 @@
 
             let h = '';
             if ((state.homeTab === 'all' || state.homeTab === 'kauniyah') && dKau.length > 0) {
-                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Makna Kauniyah</h2>`;
+                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Makna Kaun[...]`
                 h += dKau.map(i => {
                     // Di sinilah fungsi penyorot warna (highlight) bekerja
                     const w = highlightText(i.word, q);
@@ -388,39 +406,39 @@
                     const k = highlightText(i.keterangan, q);
                     
                     // Tampilkan bagian negatif hanya jika ada konten
-                    const negativeSection = n && String(n).trim() ? `<div class="bg-rose-50 border-l-4 border-l-rose-400 p-3 rounded-lg"><p class="text-xs font-bold text-rose-600 mb-1">Makna Negatif</p><p class="text-sm text-rose-800">${n}</p></div>` : '';
+                    const negativeSection = n && String(n).trim() ? `<div class="bg-rose-50 border-l-4 border-l-rose-400 p-3 rounded-lg"><p class="text-xs font-bold text-rose-600 mb-1">Makna Negatif</[...]
                     
-                    return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">${i.image ? `<img src="${i.image}" class="w-full h-32 object-cover">` : ''}<div class="p-4"><h3 class="font-bold text-lg text-slate-800 mb-3">${w}</h3><div class="space-y-2"><div class="bg-emerald-50 border-l-4 border-l-emerald-400 p-3 rounded-lg"><p class="text-xs font-bold text-emerald-600 mb-1">Makna Positif</p><p class="text-sm text-emerald-800">${p}</p></div>${negativeSection}${k && String(k).trim() ? `<p class="text-xs text-slate-500 italic">📌 ${k}</p>` : ''}</div><button onclick="openAdminModal('update', '${i.id}')" class="absolute top-3 right-3 bg-yellow-400/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all text-neutral-900"><i data-lucide="edit-3" class="w-4 h-4"></i></button></div></div>`;
+                    return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">${i.image ? `<img src="${i.image}" class="w-full h-32 objec[...]`
                 }).join(''); 
                 h += `</div></div>`;
             }
 
             if ((state.homeTab === 'all' || state.homeTab === 'hadis') && dHad.length > 0) {
-                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Dalil Hadis</h2>`;
+                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i>[...]
                 h += dHad.map(i => {
                     const w = highlightText(i.word, q);
                     const p = highlightText(i.maknaPositif, q);
                     const n = highlightText(i.maknaNegatif, q);
                     
                     // Tampilkan bagian negatif hanya jika ada konten
-                    const negativeSection = n && String(n).trim() ? `<div class="bg-slate-100 p-2 rounded mt-2"><p class="text-xs font-bold text-slate-600 mb-1">Perawi</p><p class="text-xs text-slate-700">${n}</p></div>` : '';
+                    const negativeSection = n && String(n).trim() ? `<div class="bg-slate-100 p-2 rounded mt-2"><p class="text-xs font-bold text-slate-600 mb-1">Perawi</p><p class="text-xs text-s[...]`
                     
-                    return `<div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm border-l-4 border-l-blue-400 relative"><button onclick="openAdminModal('update', '${i.id}')" class="absolute top-3 right-3 bg-yellow-400/80 p-2 rounded-full opacity-0 hover:opacity-100 transition-all text-neutral-900"><i data-lucide="edit-3" class="w-4 h-4"></i></button><h3 class="font-bold text-slate-800 mb-2">${w}</h3><p class="text-sm text-slate-700 mb-2">${p}</p>${negativeSection}</div>`;
+                    return `<div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm border-l-4 border-l-blue-400 relative"><button onclick="openAdminModal('update', '${i.id}')" class="a[...]`
                 }).join(''); 
                 h += `</div></div>`;
             }
 
             if ((state.homeTab === 'all' || state.homeTab === 'quran') && state.quran.length > 0) {
-                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="book" class="w-4 h-4"></i> Harfiyah (Quran)</h2>`;
+                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="book" class="w-4 h-4"></i> Harfiyah [...]
                 h += state.quran.map(i => {
                     const tr = highlightText(i.translation, q);
                     
-                    return `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative"><div class="flex justify-between items-center mb-4"><span class="bg-yellow-100 text-yellow-700 text-xs font-bold px-3 py-1 rounded-full">${i.surah} : ${i.ayat}</span><span class="font-arabic text-right text-lg text-slate-800">${i.arabic}</span></div><p class="text-sm text-slate-700 leading-relaxed">${tr}</p></div>`;
+                    return `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative"><div class="flex justify-between items-center mb-4"><span class="bg-yellow-100 text-yellow-[...]
                 }).join(''); 
                 h += `</div></div>`;
             }
 
-            if (h === '') h = `<div class="text-center py-12 bg-white rounded-3xl border border-slate-100 fade-in"><i data-lucide="inbox" class="w-12 h-12 mx-auto text-slate-200 mb-4"></i><p class="text-slate-400 text-sm">Tidak ada hasil pencarian</p></div>`;
+            if (h === '') h = `<div class="text-center py-12 bg-white rounded-3xl border border-slate-100 fade-in"><i data-lucide="inbox" class="w-12 h-12 mx-auto text-slate-200 mb-4"></i><p class="te[...]`
             c.innerHTML = h; lucide.createIcons();
         }
 
@@ -434,9 +452,9 @@
                 const icon = isHadis ? 'message-circle' : 'book';
                 const label = isHadis ? 'Dalil Hadis' : 'Panduan Keilmuan';
                 const word = String(i.word || '');
-                const media = i.image ? `<img src="${i.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 bg-slate-50" onerror="this.style.display='none'">` : `<div class="w-16 h-16 bg-slate-100 rounded-xl flex items-center justify-center shrink-0"><i data-lucide="${icon}" class="w-8 h-8 text-slate-400"></i></div>`;
-                return `<div onclick="openReader('${i.id}', '${label}')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-start gap-3">
-                    ${media} <div class="flex-1"><h3 class="font-bold text-slate-800 mb-1 leading-tight">${word}</h3><p class="text-xs text-slate-400 line-clamp-2">${String(i.maknaPositif || '').substring(0, 80)}...</p></div>
+                const media = i.image ? `<img src="${i.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 bg-slate-50" onerror="this.style.display='none'">` : `<div clas[...]`
+                return `<div onclick="openReader('${i.id}', '${label}')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-star[...]
+                    ${media} <div class="flex-1"><h3 class="font-bold text-slate-800 mb-1 leading-tight">${word}</h3><p class="text-xs text-slate-400 line-clamp-2">${String(i.maknaPositif || '').subst[...]`
                 </div>`;
             }).join('') || '<p class="text-slate-400 text-sm">Belum ada panduan/dalil tersedia.</p>';
             lucide.createIcons();
@@ -446,8 +464,8 @@
             const k = state.db.filter(i => String(i.category || '').trim().toUpperCase() === 'KAIFIYAH');
             document.getElementById('kaifiyahList').innerHTML = k.map(i => {
                 const word = String(i.word || '');
-                const media = i.image ? `<img src="${i.image}" class="w-14 h-14 rounded-full object-cover shrink-0 border-2 border-emerald-100" onerror="this.style.display='none'">` : `<div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center shrink-0"><i data-lucide="heart-handshake" class="w-7 h-7 text-slate-400"></i></div>`;
-                return `<div onclick="openReader('${i.id}', 'Panduan Amalan')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-center justify-between">
+                const media = i.image ? `<img src="${i.image}" class="w-14 h-14 rounded-full object-cover shrink-0 border-2 border-emerald-100" onerror="this.style.display='none'">` : `<div cla[...]`
+                return `<div onclick="openReader('${i.id}', 'Panduan Amalan')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex item[...]`
                     <div class="flex items-center gap-4 flex-1">${media} <h3 class="font-bold text-slate-800 leading-tight">${word}</h3></div>
                     <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
                 </div>`;
@@ -559,8 +577,8 @@
 
             document.querySelectorAll('.home-tab-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.home-tab-btn').forEach(b => b.className = "home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100");
-                    const t = e.currentTarget; t.className = "home-tab-btn shrink-0 active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center gap-2";
+                    document.querySelectorAll('.home-tab-btn').forEach(b => b.className = "home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-sl[...]"
+                    const t = e.currentTarget; t.className = "home-tab-btn shrink-0 active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex it[...]"
                     state.homeTab = t.getAttribute('data-tab'); renderHomeSearch();
                 });
             });
@@ -607,6 +625,45 @@
                 } catch (err) { showToast('Gagal menyimpan. Cek koneksi internet Anda.', 'error'); }
                 finally { btn.disabled = false; btn.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan Data`; lucide.createIcons(); }
             });
+
+            // --- UKURAN HURUF (AKSESIBILITAS) ---
+            function applyFontSize(size) {
+                size = Number(size) || 16;
+                document.documentElement.style.setProperty('--base-font-size', size + 'px');
+                const label = document.getElementById('fontSizeLabel');
+                if (label) label.innerText = size + 'px';
+                localStorage.setItem('maknaqu_font_size', String(size));
+            }
+            function initFontSize() {
+                const saved = localStorage.getItem('maknaqu_font_size');
+                const size = saved ? Number(saved) : 16;
+                applyFontSize(size);
+                const range = document.getElementById('fontSizeRange');
+                if (range) range.value = String(size);
+            }
+            function increaseFont() {
+                const cur = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--base-font-size')) || 16;
+                if (cur < 24) applyFontSize(cur + 1);
+            }
+            function decreaseFont() {
+                const cur = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--base-font-size')) || 16;
+                if (cur > 12) applyFontSize(cur - 1);
+            }
+
+            const incBtn = document.getElementById('fontInc');
+            const decBtn = document.getElementById('fontDec');
+            const range = document.getElementById('fontSizeRange');
+            if (incBtn) incBtn.addEventListener('click', () => { increaseFont(); lucide.createIcons(); });
+            if (decBtn) decBtn.addEventListener('click', () => { decreaseFont(); lucide.createIcons(); });
+            if (range) range.addEventListener('input', (e) => { applyFontSize(e.target.value); });
+
+            // keyboard shortcuts: Ctrl/Cmd + / -
+            document.addEventListener('keydown', (ev) => {
+              if ((ev.ctrlKey || ev.metaKey) && (ev.key === '+' || ev.key === '=')) { ev.preventDefault(); increaseFont(); }
+              if ((ev.ctrlKey || ev.metaKey) && ev.key === '-') { ev.preventDefault(); decreaseFont(); }
+            });
+
+            initFontSize();
         });
     </script>
 </body>
