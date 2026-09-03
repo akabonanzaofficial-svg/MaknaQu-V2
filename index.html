@@ -55,7 +55,7 @@
             <h2 class="text-2xl font-bold mb-2 text-slate-800">Akses MaknaQu</h2>
             <p class="text-sm text-slate-500 mb-6">Masukkan kata sandi untuk mengeksplorasi ilmu dan makna.</p>
             <form id="userLoginForm" class="space-y-4">
-                <input type="password" id="userPass" placeholder="Kata Sandi" class="w-full p-4 rounded-xl border border-slate-200 focus:border-yellow-400 outline-none bg-slate-50 text-center font-bold tracking-widest" required>
+                <input type="password" id="userPass" placeholder="Kata Sandi" class="w-full p-4 rounded-xl border border-slate-200 focus:border-yellow-400 outline-none bg-slate-50 text-center font-bold" required>
                 <button type="submit" id="userLoginBtn" class="w-full bg-yellow-500 text-white py-4 rounded-xl font-bold hover:bg-yellow-600 transition-all shadow-lg shadow-yellow-500/30 flex items-center justify-center gap-2">
                     <i data-lucide="unlock" class="w-5 h-5"></i> Masuk
                 </button>
@@ -92,17 +92,17 @@
             <!-- TABS AREA: Kiri Tetap (Fixed), Kanan Bergeser (Scroll) -->
             <div class="flex items-center mb-8 bg-white p-1 rounded-full shadow-sm max-w-full w-fit mx-auto border border-slate-200">
                 <div class="shrink-0 pr-2 mr-1 border-r border-slate-100 relative z-10 bg-white rounded-l-full">
-                    <button data-tab="all" class="home-tab-btn shrink-0 active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center gap-2">Semua</button>
+                    <button data-tab="all" class="home-tab-btn shrink-0 active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center gap-2"><i data-lucide="inbox" class="w-4 h-4"></i> Semua</button>
                 </div>
                 <div class="flex gap-2 overflow-x-auto hide-scrollbar scroll-smooth w-full pr-2">
                     <button data-tab="kauniyah" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Kauniyah</button>
-                    <button data-tab="quran" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4"></i> Harfiyah</button>
+                    <button data-tab="quran" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="book" class="w-4 h-4"></i> Harfiyah</button>
                     <button data-tab="hadis" class="home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Hadis</button>
                 </div>
             </div>
 
             <div id="mainContent" class="space-y-6 pb-6">
-                <div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi makna.</p></div>
+                <div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi mak</p></div>
             </div>
         </main>
 
@@ -126,7 +126,7 @@
 
     <!-- SMART EDGE PANEL MINI -->
     <!-- Garis Pemicu (Trigger) -->
-    <div id="smartPanelTrigger" onclick="toggleSmartPanel()" class="fixed right-0 top-1/2 -translate-y-1/2 bg-neutral-400/40 w-1.5 h-16 rounded-l-full cursor-pointer z-40 transition-all duration-300 hover:bg-yellow-400 hover:w-2 hover:shadow-[-2px_0_10px_rgba(250,204,21,0.5)] group flex items-center">
+    <div id="smartPanelTrigger" onclick="toggleSmartPanel()" class="fixed right-0 top-1/2 -translate-y-1/2 bg-neutral-400/40 w-1.5 h-16 rounded-l-full cursor-pointer z-40 transition-all duration-300 hover:bg-neutral-600/60 group">
         <div class="absolute -left-6 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             <i data-lucide="chevron-left" class="w-5 h-5 text-yellow-500 drop-shadow-md"></i>
         </div>
@@ -136,8 +136,8 @@
     <div id="smartPanelOverlay" onclick="toggleSmartPanel()" class="fixed inset-0 z-40 hidden"></div>
 
     <!-- Mini Pop-up Panel (Minimalis & Semi Transparan) -->
-    <div id="smartPanel" class="fixed right-3 top-1/2 -translate-y-1/2 bg-neutral-900/60 backdrop-blur-md p-2.5 rounded-2xl shadow-lg z-50 transform translate-x-16 opacity-0 pointer-events-none transition-all duration-300 ease-out border border-white/10 flex flex-col items-center">
-        <button onclick="toggleSmartPanel(); openAdminModal('add');" class="w-10 h-10 bg-white/20 text-yellow-400 rounded-xl flex items-center justify-center hover:bg-yellow-400 hover:text-neutral-900 hover:scale-110 active:scale-95 transition-all shadow-sm" title="Tambah Data">
+    <div id="smartPanel" class="fixed right-3 top-1/2 -translate-y-1/2 bg-neutral-900/60 backdrop-blur-md p-2.5 rounded-2xl shadow-lg z-50 transform translate-x-16 opacity-0 pointer-events-none transition-all duration-300">
+        <button onclick="toggleSmartPanel(); openAdminModal('add');" class="w-10 h-10 bg-white/20 text-yellow-400 rounded-xl flex items-center justify-center hover:bg-yellow-400 hover:text-neutral-900 transition-all">
             <i data-lucide="plus" class="w-5 h-5"></i>
         </button>
     </div>
@@ -365,7 +365,7 @@
             const q = String(state.query || '').trim().toLowerCase();
             
             if (!q && state.homeTab === 'all') { 
-                c.innerHTML = `<div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi makna.</p></div>`; 
+                c.innerHTML = `<div class="text-center py-12 text-slate-500 fade-in"><i data-lucide="search" class="w-12 h-12 mx-auto text-slate-200 mb-4 opacity-50"></i><p>Ketikkan kata untuk memulai eksplorasi mak</p></div>`;
                 lucide.createIcons(); return; 
             }
 
@@ -379,7 +379,7 @@
 
             let h = '';
             if ((state.homeTab === 'all' || state.homeTab === 'kauniyah') && dKau.length > 0) {
-                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Makna Kauniyah</h2><div class="grid gap-4 md:grid-cols-2">`;
+                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Makna Kauniyah</h2>`;
                 h += dKau.map(i => {
                     // Di sinilah fungsi penyorot warna (highlight) bekerja
                     const w = highlightText(i.word, q);
@@ -387,34 +387,40 @@
                     const n = highlightText(i.maknaNegatif, q);
                     const k = highlightText(i.keterangan, q);
                     
-                    return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">${i.image ? `<img src="${i.image}" class="w-full h-32 object-cover bg-slate-100" onerror="this.style.display='none'">` : ''}<div class="p-5 flex-1"><button onclick="openAdminModal('update', '${i.id}')" class="absolute top-4 right-4 text-slate-300 hover:text-yellow-600 bg-white shadow-md p-2 rounded-full z-10"><i data-lucide="edit-3" class="w-4 h-4"></i></button><h3 class="text-xl font-bold text-slate-800 mb-3 border-b pb-2 pr-10">${w}</h3><div class="space-y-2">${p ? `<div class="bg-emerald-50 p-3 rounded-2xl text-sm prose-custom"><b class="text-emerald-700 block mb-1">Makna Kauniyah Positif:</b> ${p}</div>` : ''}${n ? `<div class="bg-rose-50 p-3 rounded-2xl text-sm prose-custom"><b class="text-rose-700 block mb-1">Negatif:</b> ${n}</div>` : ''}${k ? `<p class="text-xs text-slate-400 italic mt-2">${k}</p>` : ''}</div></div></div>`;
+                    // Tampilkan bagian negatif hanya jika ada konten
+                    const negativeSection = n && String(n).trim() ? `<div class="bg-rose-50 border-l-4 border-l-rose-400 p-3 rounded-lg"><p class="text-xs font-bold text-rose-600 mb-1">Makna Negatif</p><p class="text-sm text-rose-800">${n}</p></div>` : '';
+                    
+                    return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">${i.image ? `<img src="${i.image}" class="w-full h-32 object-cover">` : ''}<div class="p-4"><h3 class="font-bold text-lg text-slate-800 mb-3">${w}</h3><div class="space-y-2"><div class="bg-emerald-50 border-l-4 border-l-emerald-400 p-3 rounded-lg"><p class="text-xs font-bold text-emerald-600 mb-1">Makna Positif</p><p class="text-sm text-emerald-800">${p}</p></div>${negativeSection}${k && String(k).trim() ? `<p class="text-xs text-slate-500 italic">📌 ${k}</p>` : ''}</div><button onclick="openAdminModal('update', '${i.id}')" class="absolute top-3 right-3 bg-yellow-400/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all text-neutral-900"><i data-lucide="edit-3" class="w-4 h-4"></i></button></div></div>`;
                 }).join(''); 
                 h += `</div></div>`;
             }
 
             if ((state.homeTab === 'all' || state.homeTab === 'hadis') && dHad.length > 0) {
-                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Dalil Hadis</h2><div class="space-y-3">`;
+                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Dalil Hadis</h2>`;
                 h += dHad.map(i => {
                     const w = highlightText(i.word, q);
                     const p = highlightText(i.maknaPositif, q);
                     const n = highlightText(i.maknaNegatif, q);
                     
-                    return `<div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm border-l-4 border-l-blue-400 relative"><button onclick="openAdminModal('update', '${i.id}')" class="absolute top-4 right-4 text-slate-300 hover:text-yellow-600 bg-white shadow-sm p-2 rounded-full z-10"><i data-lucide="edit-3" class="w-4 h-4"></i></button><span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded mb-2 inline-block">Topik: ${w}</span><div class="text-slate-700 font-medium leading-relaxed italic pr-10 prose-custom">"${p}"</div><p class="text-sm text-slate-400 mt-2 font-bold">— ${n}</p></div>`;
+                    // Tampilkan bagian negatif hanya jika ada konten
+                    const negativeSection = n && String(n).trim() ? `<div class="bg-slate-100 p-2 rounded mt-2"><p class="text-xs font-bold text-slate-600 mb-1">Perawi</p><p class="text-xs text-slate-700">${n}</p></div>` : '';
+                    
+                    return `<div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm border-l-4 border-l-blue-400 relative"><button onclick="openAdminModal('update', '${i.id}')" class="absolute top-3 right-3 bg-yellow-400/80 p-2 rounded-full opacity-0 hover:opacity-100 transition-all text-neutral-900"><i data-lucide="edit-3" class="w-4 h-4"></i></button><h3 class="font-bold text-slate-800 mb-2">${w}</h3><p class="text-sm text-slate-700 mb-2">${p}</p>${negativeSection}</div>`;
                 }).join(''); 
                 h += `</div></div>`;
             }
 
             if ((state.homeTab === 'all' || state.homeTab === 'quran') && state.quran.length > 0) {
-                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="book" class="w-4 h-4"></i> Harfiyah (Al-Quran)</h2><div class="space-y-4">`;
+                h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="book" class="w-4 h-4"></i> Harfiyah (Quran)</h2>`;
                 h += state.quran.map(i => {
                     const tr = highlightText(i.translation, q);
                     
-                    return `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative"><div class="flex justify-between items-center mb-4"><span class="bg-yellow-100 text-yellow-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase">${i.surah} : ${i.ayat}</span></div><p class="text-2xl font-arabic text-right mb-4 leading-loose dir-rtl">${i.arabic}</p><div class="bg-slate-50 p-4 rounded-2xl text-sm text-slate-600 leading-relaxed"><b class="text-slate-800 block mb-1">Terjemah:</b> ${tr}</div></div>`;
+                    return `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative"><div class="flex justify-between items-center mb-4"><span class="bg-yellow-100 text-yellow-700 text-xs font-bold px-3 py-1 rounded-full">${i.surah} : ${i.ayat}</span><span class="font-arabic text-right text-lg text-slate-800">${i.arabic}</span></div><p class="text-sm text-slate-700 leading-relaxed">${tr}</p></div>`;
                 }).join(''); 
                 h += `</div></div>`;
             }
 
-            if (h === '') h = `<div class="text-center py-12 bg-white rounded-3xl border border-slate-100 fade-in"><i data-lucide="inbox" class="w-12 h-12 mx-auto text-slate-200 mb-4"></i><p class="text-slate-500">Tidak ada hasil yang cocok.</p></div>`;
+            if (h === '') h = `<div class="text-center py-12 bg-white rounded-3xl border border-slate-100 fade-in"><i data-lucide="inbox" class="w-12 h-12 mx-auto text-slate-200 mb-4"></i><p class="text-slate-400 text-sm">Tidak ada hasil pencarian</p></div>`;
             c.innerHTML = h; lucide.createIcons();
         }
 
@@ -428,9 +434,9 @@
                 const icon = isHadis ? 'message-circle' : 'book';
                 const label = isHadis ? 'Dalil Hadis' : 'Panduan Keilmuan';
                 const word = String(i.word || '');
-                const media = i.image ? `<img src="${i.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 bg-slate-50" onerror="this.style.display='none'">` : `<div class="bg-blue-50 p-3 rounded-xl text-blue-500 shrink-0"><i data-lucide="${icon}" class="w-6 h-6"></i></div>`;
-                return `<div onclick="openReader('${i.id}', '${label}')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-start gap-4">
-                    ${media} <div class="flex-1"><h3 class="font-bold text-slate-800 mb-1 leading-tight">${word}</h3><p class="text-xs text-slate-400 line-clamp-2">${String(i.maknaPositif || '').replace(/<[^>]*>?/gm, '')}</p></div>
+                const media = i.image ? `<img src="${i.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100 bg-slate-50" onerror="this.style.display='none'">` : `<div class="w-16 h-16 bg-slate-100 rounded-xl flex items-center justify-center shrink-0"><i data-lucide="${icon}" class="w-8 h-8 text-slate-400"></i></div>`;
+                return `<div onclick="openReader('${i.id}', '${label}')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-start gap-3">
+                    ${media} <div class="flex-1"><h3 class="font-bold text-slate-800 mb-1 leading-tight">${word}</h3><p class="text-xs text-slate-400 line-clamp-2">${String(i.maknaPositif || '').substring(0, 80)}...</p></div>
                 </div>`;
             }).join('') || '<p class="text-slate-400 text-sm">Belum ada panduan/dalil tersedia.</p>';
             lucide.createIcons();
@@ -440,8 +446,8 @@
             const k = state.db.filter(i => String(i.category || '').trim().toUpperCase() === 'KAIFIYAH');
             document.getElementById('kaifiyahList').innerHTML = k.map(i => {
                 const word = String(i.word || '');
-                const media = i.image ? `<img src="${i.image}" class="w-14 h-14 rounded-full object-cover shrink-0 border-2 border-emerald-100" onerror="this.style.display='none'">` : `<div class="bg-emerald-50 p-3 rounded-full text-emerald-500 shrink-0"><i data-lucide="sparkles" class="w-5 h-5"></i></div>`;
-                return `<div onclick="openReader('${i.id}', 'Panduan Amalan')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-center justify-between gap-4">
+                const media = i.image ? `<img src="${i.image}" class="w-14 h-14 rounded-full object-cover shrink-0 border-2 border-emerald-100" onerror="this.style.display='none'">` : `<div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center shrink-0"><i data-lucide="heart-handshake" class="w-7 h-7 text-slate-400"></i></div>`;
+                return `<div onclick="openReader('${i.id}', 'Panduan Amalan')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition-all flex items-center justify-between">
                     <div class="flex items-center gap-4 flex-1">${media} <h3 class="font-bold text-slate-800 leading-tight">${word}</h3></div>
                     <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
                 </div>`;
@@ -553,7 +559,7 @@
 
             document.querySelectorAll('.home-tab-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.home-tab-btn').forEach(b => b.className = "home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100 flex items-center gap-2");
+                    document.querySelectorAll('.home-tab-btn').forEach(b => b.className = "home-tab-btn shrink-0 px-5 py-2 rounded-full text-xs font-bold transition-all text-slate-500 hover:bg-slate-100");
                     const t = e.currentTarget; t.className = "home-tab-btn shrink-0 active px-5 py-2 rounded-full text-xs font-bold transition-all bg-neutral-900 text-yellow-400 shadow-sm flex items-center gap-2";
                     state.homeTab = t.getAttribute('data-tab'); renderHomeSearch();
                 });
