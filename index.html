@@ -381,20 +381,24 @@
             if ((state.homeTab === 'all' || state.homeTab === 'kauniyah') && dKau.length > 0) {
                 h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Makna Kauniyah</h2>`;
                 h += dKau.map(i => {
-            // Di sinilah fungsi penyorot warna (highlight) bekerja
             const w = highlightText(i.word, q);
             const p = highlightText(i.maknaPositif, q);
             const n = highlightText(i.maknaNegatif, q);
             const k = highlightText(i.keterangan, q);
 
-            // 1. Cek apakah konten positif dan negatif ada isinya
-            const hasPositif = p && String(p).trim() !== '';
-            const hasNegatif = n && String(n).trim() !== '';
+            // 1. Ambil nilainya dan ubah ke string yang bersih
+            const valP = String(p || '').trim();
+            const valN = String(n || '').trim();
+
+            // 2. Pengecekan EKSTRA KETAT: 
+            // Dianggap "Ada" HANYA JIKA bukan kosong, bukan "undefined", bukan "null", dan bukan sekadar tanda strip "-"
+            const hasPositif = valP !== '' && valP !== 'undefined' && valP !== 'null' && valP !== '-';
+            const hasNegatif = valN !== '' && valN !== 'undefined' && valN !== 'null' && valN !== '-';
             
-            // 2. Tentukan apakah label perlu ditampilkan (true jika KEDUANYA ada)
+            // 3. Tentukan apakah label perlu ditampilkan (true jika KEDUANYA ada)
             const showLabels = hasPositif && hasNegatif;
 
-            // 3. Render blok Makna Positif (Hijau)
+            // 4. Render blok Makna Positif (Hijau)
             let positifSection = '';
             if (hasPositif) {
                 const labelPositif = showLabels ? `<p class="text-xs font-bold text-emerald-600 mb-1">Makna Positif</p>` : '';
@@ -404,7 +408,7 @@
                 </div>`;
             }
 
-            // 4. Render blok Makna Negatif (Merah)
+            // 5. Render blok Makna Negatif (Merah)
             let negativeSection = '';
             if (hasNegatif) {
                 const labelNegatif = showLabels ? `<p class="text-xs font-bold text-rose-600 mb-1">Makna Negatif</p>` : '';
@@ -413,8 +417,12 @@
                     <p class="text-sm text-rose-800">${n}</p>
                 </div>`;
             }
+            
+            // 6. Cek keterangan tambahan
+            const valK = String(k || '').trim();
+            const ketSection = (valK !== '' && valK !== 'undefined' && valK !== 'null') ? `<p class="text-xs text-slate-500 italic">📌 ${k}</p>` : '';
 
-            // 5. Gabungkan menjadi card utuh
+            // 7. Gabungkan menjadi card utuh
             return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">
                 ${i.image ? `<img src="${i.image}" class="w-full h-32 object-cover">` : ''}
                 <div class="p-4">
@@ -422,7 +430,7 @@
                     <div class="space-y-2">
                         ${positifSection}
                         ${negativeSection}
-                        ${k && String(k).trim() ? `<p class="text-xs text-slate-500 italic">📌 ${k}</p>` : ''}
+                        ${ketSection}
                     </div>
                     <button onclick="openAdminModal('update', '${i.id}')" class="absolute top-3 right-3 bg-yellow-400/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all text-neutral-900"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
                 </div>
