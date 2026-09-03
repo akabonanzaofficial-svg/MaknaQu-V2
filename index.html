@@ -381,17 +381,55 @@
             if ((state.homeTab === 'all' || state.homeTab === 'kauniyah') && dKau.length > 0) {
                 h += `<div class="mb-6 fade-in"><h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4"></i> Makna Kauniyah</h2>`;
                 h += dKau.map(i => {
-                    // Di sinilah fungsi penyorot warna (highlight) bekerja
-                    const w = highlightText(i.word, q);
-                    const p = highlightText(i.maknaPositif, q);
-                    const n = highlightText(i.maknaNegatif, q);
-                    const k = highlightText(i.keterangan, q);
-                    
-                    // Tampilkan bagian negatif hanya jika ada konten
-                    const negativeSection = n && String(n).trim() ? `<div class="bg-rose-50 border-l-4 border-l-rose-400 p-3 rounded-lg"><p class="text-xs font-bold text-rose-600 mb-1">Makna Negatif</p><p class="text-sm text-rose-800">${n}</p></div>` : '';
-                    
-                    return `<div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">${i.image ? `<img src="${i.image}" class="w-full h-32 object-cover">` : ''}<div class="p-4"><h3 class="font-bold text-lg text-slate-800 mb-3">${w}</h3><div class="space-y-2"><div class="bg-emerald-50 border-l-4 border-l-emerald-400 p-3 rounded-lg"><p class="text-xs font-bold text-emerald-600 mb-1">Makna Positif</p><p class="text-sm text-emerald-800">${p}</p></div>${negativeSection}${k && String(k).trim() ? `<p class="text-xs text-slate-500 italic">📌 ${k}</p>` : ''}</div><button onclick="openAdminModal('update', '${i.id}')" class="absolute top-3 right-3 bg-yellow-400/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all text-neutral-900"><i data-lucide="edit-3" class="w-4 h-4"></i></button></div></div>`;
-                }).join(''); 
+    const qTrim = q || '';
+    const w = highlightText(i.word, qTrim);
+
+    const posRaw = String(i.maknaPositif || '').trim();
+    const negRaw = String(i.maknaNegatif || '').trim();
+    const pos = posRaw ? highlightText(posRaw, qTrim) : '';
+    const neg = negRaw ? highlightText(negRaw, qTrim) : '';
+
+    // Bangun HTML makna berdasarkan kombinasi kehadiran
+    let meaningHtml = '';
+    if (pos && neg) {
+        // Kedua makna tersedia: tampilkan keduanya (positif + negatif dengan label)
+        meaningHtml = `
+            <div class="bg-emerald-50 p-3 rounded-lg">
+                <p class="text-sm text-emerald-800 font-medium">${pos}</p>
+            </div>
+            <div class="bg-rose-50 border-l-4 border-rose-400 p-3 rounded-lg mt-3">
+                <p class="text-xs font-bold text-rose-600 mb-1">Makna Negatif</p>
+                <p class="text-xs text-rose-600">${neg}</p>
+            </div>
+        `;
+    } else if (pos) {
+        // Hanya positif: tampilkan simpel, hijau, tanpa label
+        meaningHtml = `<div class="p-3 rounded-lg bg-emerald-50"><p class="text-sm text-emerald-800 font-medium">${pos}</p></div>`;
+    } else if (neg) {
+        // Hanya negatif: tampilkan simpel, merah, tanpa label
+        meaningHtml = `<div class="p-3 rounded-lg bg-rose-50"><p class="text-sm text-rose-700 font-medium">${neg}</p></div>`;
+    } else {
+        meaningHtml = `<div class="p-3 text-slate-400">-</div>`;
+    }
+
+    const mediaHtml = i.image ? `<img src="${i.image}" class="w-full h-32 object-cover rounded-t-2xl" onerror="this.style.display='none'">` : '';
+
+    return `
+      <div class="bg-white rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden flex flex-col group">
+        ${mediaHtml}
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-bold text-slate-800 text-lg leading-tight">${w}</h3>
+            <button onclick="openAdminModal('update', '${i.id}')" class="p-2 text-slate-400 hover:text-slate-600">
+              <i data-lucide="edit-3" class="w-4 h-4"></i>
+            </button>
+          </div>
+          ${meaningHtml}
+          ${i.keterangan ? `<p class="text-xs text-slate-400 mt-3">${highlightText(i.keterangan, qTrim)}</p>` : ''}
+        </div>
+      </div>
+    `;
+}).join(''); 
                 h += `</div></div>`;
             }
 
@@ -456,19 +494,34 @@
         }
 
         function openReader(id, cat) {
-            const i = state.db.find(x => x.id === id);
-            if (!i) return;
-            document.getElementById('readerCategory').innerText = cat;
-            document.getElementById('readerTitle').innerText = String(i.word || '');
-            document.getElementById('readerContent').innerHTML = String(i.maknaPositif || '');
-            const img = document.getElementById('readerImage');
-            if(i.image) { img.src = i.image; img.classList.remove('hidden'); } else img.classList.add('hidden');
-            
-            document.getElementById('readerEditBtn').onclick = () => { closeReader(); openAdminModal('update', id); };
-            const m = document.getElementById('readerModal'); m.classList.replace('hidden', 'flex');
-            m.children[1].classList.add('translate-y-full');
-            setTimeout(() => { m.children[1].style.transition='transform 0.3s ease-out'; m.children[1].classList.replace('translate-y-full','translate-y-0'); }, 10);
-            lucide.createIcons();
+    const i = state.db.find(x => x.id === id);
+    if (!i) return;
+    document.getElementById('readerCategory').innerText = cat;
+    document.getElementById('readerTitle').innerText = String(i.word || '');
+
+    const posRaw = String(i.maknaPositif || '').trim();
+    const negRaw = String(i.maknaNegatif || '').trim();
+    let readerHtml = '';
+    if (posRaw && negRaw) {
+        readerHtml = `<div class="prose-custom"><div class="bg-emerald-50 p-3 rounded-lg mb-4"><p class="text-emerald-800 font-medium">${posRaw}</p></div><div class="bg-rose-50 p-3 rounded-lg"><p class="text-rose-700 font-medium">${negRaw}</p></div></div>`;
+    } else if (posRaw) {
+        readerHtml = `<div class="prose-custom"><div class="bg-emerald-50 p-3 rounded-lg"><p class="text-emerald-800 font-medium">${posRaw}</p></div></div>`;
+    } else if (negRaw) {
+        readerHtml = `<div class="prose-custom"><div class="bg-rose-50 p-3 rounded-lg"><p class="text-rose-700 font-medium">${negRaw}</p></div></div>`;
+    } else {
+        readerHtml = `<div class="prose-custom text-slate-400">Belum ada konten.</div>`;
+    }
+
+    document.getElementById('readerContent').innerHTML = readerHtml;
+    const img = document.getElementById('readerImage');
+    if(i.image) { img.src = i.image; img.classList.remove('hidden'); } else img.classList.add('hidden');
+
+    document.getElementById('readerEditBtn').onclick = () => { closeReader(); openAdminModal('update', id); };
+    const m = document.getElementById('readerModal'); m.classList.replace('hidden', 'flex');
+    m.children[1].classList.add('translate-y-full');
+    setTimeout(() => { m.children[1].style.transition='transform 0.3s ease-out'; m.children[1].classList.replace('translate-y-full','translate-y-0'); }, 10);
+    lucide.createIcons();
+}
         }
         function closeReader() { document.getElementById('readerModal').classList.replace('flex', 'hidden'); }
 
